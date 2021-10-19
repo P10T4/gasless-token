@@ -1,5 +1,12 @@
 # Bluejay Gasless Token
 
+## Setup
+Helps to install all necessary dependencies in all packages
+```
+yarn setup
+```
+
+## Start running locally
 To start, open two terminal windows in the project root. 
 
 In first window, run the following to start local blockchain node
