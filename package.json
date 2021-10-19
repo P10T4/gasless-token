@@ -5,6 +5,7 @@
     "lerna": "^3.22.1"
   },
   "scripts": {
+    "setup": "yarn install && npx lerna bootstrap",
     "start:app": "npx lerna run start",
     "start:node": "cd packages/contracts && yarn hardhat node"
   }
