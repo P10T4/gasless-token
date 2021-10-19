@@ -2,6 +2,9 @@ import { task, HardhatUserConfig } from "hardhat/config";
 import { removeConsoleLog } from "hardhat-preprocessor";
 import "@nomiclabs/hardhat-waffle";
 import "hardhat-deploy";
+import "@typechain/hardhat";
+import "@nomiclabs/hardhat-ethers";
+import "@nomiclabs/hardhat-waffle";
 
 task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
   const accounts = await hre.ethers.getSigners();
@@ -34,6 +37,10 @@ const config: HardhatUserConfig = {
   },
   mocha: {
     timeout: 20000,
+  },
+  typechain: {
+    outDir: "typechained",
+    target: "ethers-v5",
   },
   preprocess: {
     eachLine: removeConsoleLog(
