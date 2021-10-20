@@ -3,6 +3,7 @@ node_modules
 coverage
 coverage.json
 typechained
+build
 
 #Hardhat files
 cache

@@ -25,7 +25,7 @@ const config: HardhatUserConfig = {
   solidity: {
     compilers: [
       {
-        version: "0.8.0",
+        version: "0.7.6",
         settings: {
           optimizer: {
             enabled: true,
@@ -52,6 +52,9 @@ const config: HardhatUserConfig = {
     hardhat: {
       chainId: 1337, // temporary for MetaMask support: https://github.com/MetaMask/metamask-extension/issues/10290
     },
+    ganache: {
+      url: 'http://localhost:8545'
+    }
   },
   namedAccounts: {
     deployer: {

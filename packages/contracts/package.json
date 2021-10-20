@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "compile": "yarn hardhat compile",
-    "test": "yarn compile && yarn hardhat test",
+    "test": "yarn hardhat test --network ganache",
     "lint": "yarn solhint 'contracts/**/*.sol' && yarn prettier --check './**'",
     "lint:fix": "yarn sort-package-json && yarn prettier --write './**' && yarn solhint --fix 'contracts/**/*.sol'",
     "deploy": "yarn hardhat deploy",
@@ -26,6 +26,7 @@
     "chai": "^4.3.4",
     "ethereum-waffle": "^3.4.0",
     "ethers": "^5.4.7",
+    "ganache-cli": "^6.12.2",
     "hardhat": "^2.6.6",
     "hardhat-deploy": "^0.9.4",
     "hardhat-preprocessor": "^0.1.4",
@@ -34,6 +35,9 @@
     "typescript": "^4.4.4"
   },
   "dependencies": {
+    "@opengsn/contracts": "2.2.2",
+    "@opengsn/gsn": "2.1.0",
+    "@opengsn/provider": "2.2.2",
     "@openzeppelin/contracts": "^4.3.2"
   }
 }
