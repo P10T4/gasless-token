@@ -4,6 +4,7 @@ coverage
 coverage.json
 typechained
 build
+deployments
 
 #Hardhat files
 cache

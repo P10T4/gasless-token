@@ -1,23 +1,18 @@
 import { HardhatRuntimeEnvironment } from "hardhat/types";
 import { DeployFunction } from "hardhat-deploy/types";
 
-export const INITIAL_GREET: { [chainId: string]: string } = {
-  "1337": "Bonjour localhost!",
-  "4": "Guten tag, Rinkeby!",
-};
-
 const deployFunc: DeployFunction = async (
   hre: HardhatRuntimeEnvironment
 ) => {
   const { deployer } = await hre.getNamedAccounts();
   const chainId = await hre.getChainId();
 
-  await hre.deployments.deploy("Greeter", {
+  await hre.deployments.deploy("MetaCoin", {
     from: deployer,
-    args: [INITIAL_GREET[chainId]],
+    args: ["0x572f76C826F2bfdef8ada45e98B6684944b42052"], //need to edit this
     log: true,
   });
 };
-deployFunc.tags = ["Greeter"];
+deployFunc.tags = ["MetaCoin"];
 
 export default deployFunc;

@@ -5,12 +5,14 @@
   "main": "index.js",
   "scripts": {
     "compile": "yarn hardhat compile",
-    "test": "yarn hardhat test --network ganache",
+    "test": "yarn hardhat test",
     "lint": "yarn solhint 'contracts/**/*.sol' && yarn prettier --check './**'",
     "lint:fix": "yarn sort-package-json && yarn prettier --write './**' && yarn solhint --fix 'contracts/**/*.sol'",
     "deploy": "yarn hardhat deploy",
     "deploy:local": "yarn hardhat deploy --network localhost",
-    "start": "yarn deploy:local"
+    "ganache": "npx ganache-cli -i 1337 --chainId 1337",
+    "gsn": "npx gsn start localhost",
+    "start": ""
   },
   "keywords": [],
   "author": "",
