@@ -1,5 +1,6 @@
 import { HardhatRuntimeEnvironment } from "hardhat/types";
 import { DeployFunction } from "hardhat-deploy/types";
+import forwarder from "../../build/gsn/Forwarder.json";
 
 const deployFunc: DeployFunction = async (
   hre: HardhatRuntimeEnvironment
@@ -9,9 +10,15 @@ const deployFunc: DeployFunction = async (
 
   await hre.deployments.deploy("MetaCoin", {
     from: deployer,
-    args: ["0x572f76C826F2bfdef8ada45e98B6684944b42052"], //need to edit this
+    args: [forwarder.address], //need to edit this
     log: true,
   });
+
+  // await hre.deployments.deploy("MyPaymaster", {
+  //   from: deployer,
+  //   args: [], //need to edit this
+  //   log: true,
+  // });
 };
 deployFunc.tags = ["MetaCoin"];
 

@@ -17,7 +17,7 @@ contract MetaCoin is BaseRelayRecipient {
     }
 
     function versionRecipient() external override view returns (string memory) {
-        return "2.0.0";
+        return "2.2.2";
     }
 
     function transfer(address receiver, uint amount) public returns (bool sufficient) {

@@ -1,25 +1,41 @@
 import React from 'react';
-import { ethers, Signer } from 'ethers'
-import MetaCoin from './MetaCoin.json'
+import { ethers, providers, Signer } from 'ethers'
 import { Web3Provider, Provider } from '@ethersproject/providers';
-
-const metaCoinDeployedAddress = "0x90614D444FAEf4077e07b0Cbc20099de67CFBc01"
+import paymaster from "../contractbuild/gsn/Paymaster.json";
+import metacoin from "../contractdeployments/deployments/localhost/MetaCoin.json";
+const gsn = require('@opengsn/provider')
 
 const Home = () => {
+
+    var provider: any = null;
+
+    async function setProvider() {
+        if (provider != null) {
+            return
+        }
+        let config = {
+            paymasterAddress: paymaster.address,
+            verbose: true, 
+        };
+        let gsnProvider = await (gsn.RelayProvider.newProvider({provider: (window as any).ethereum, config})).init();
+        provider = new ethers.providers.Web3Provider(gsnProvider as any);
+    }
       // request access to the user's MetaMask account
     async function requestAccount() {
         await (window as any).ethereum.request({ method: 'eth_requestAccounts' });
+        await setProvider();
     }
 
       // call the smart contract, read the current greeting value
     async function readBalance() {
         if (typeof (window as any).ethereum !== 'undefined') {
-        const provider = new ethers.providers.Web3Provider((window as any).ethereum) as Web3Provider
+            requestAccount();
+        // const provider = new ethers.providers.Web3Provider((window as any).ethereum) as Web3Provider
         const signer = provider.getSigner()
-        const contract = new ethers.Contract(metaCoinDeployedAddress, MetaCoin.abi, provider as Provider);
+        const contract = new ethers.Contract(metacoin.address, metacoin.abi, provider as Provider);
         try {
             const data = await contract.balanceOf(await signer.getAddress())
-            console.log('data: ', data)
+            setBalance(data.toNumber());
         } catch (err) {
             console.log("Error: ", err)
         }
@@ -30,27 +46,31 @@ const Home = () => {
     async function mintToken() {
         if (typeof (window as any).ethereum !== 'undefined') {
             await requestAccount()
-            const provider = new ethers.providers.Web3Provider((window as any).ethereum);
-            const signer = provider.getSigner()
-            const contract = new ethers.Contract(metaCoinDeployedAddress, MetaCoin.abi, signer as Signer)
-            const transaction = await contract.mint(100)
+            const contract = new ethers.Contract(metacoin.address, metacoin.abi, provider.getSigner() as Signer)
+            const transaction = await contract.mint(100);
             await transaction.wait()
-            readBalance();
+            // readBalance();
         }
     }
 
     async function transferToken(address: string, amount: any) {
         if (typeof (window as any).ethereum !== 'undefined') {
-            await requestAccount()
-            const provider = new ethers.providers.Web3Provider((window as any).ethereum);
-            const signer = provider.getSigner()
-            const contract = new ethers.Contract(metaCoinDeployedAddress, MetaCoin.abi, signer as Signer)
+            await requestAccount();
+            let config = {
+                paymasterAddress: paymaster.address,
+                verbose: true, 
+            };
+            let gsnProvider = await (gsn.RelayProvider.newProvider({provider: (window as any).ethereum, config})).init();
+            
+            const provider = new ethers.providers.Web3Provider(gsnProvider as any);
+            const contract = new ethers.Contract(metacoin.address, metacoin.abi, provider.getSigner() as Signer)
             const transaction = await contract.transfer(address, amount)
             await transaction.wait()
         }
     }
 
     const [address, setaddress] = React.useState("");
+    const [balance, setBalance] = React.useState(0);
 
     const handleChange = (event: any) => {    
         setaddress(event.target.value);  
@@ -61,7 +81,19 @@ const Home = () => {
     }
 
     return (<div>
+        <h2>Step 1: Mint some token first</h2>
+        <p>After we mint some token, then we can use it to transfer to other accounts</p>
         <button onClick={mintToken}>mint</button>
+        <br/>
+        <br/>
+        <h2>Step 2: Check your current balance</h2>
+        <button onClick={readBalance}>Click here to refresh current balance</button>
+        <h4>Your current balance: {balance}</h4>
+        <p>Can also check balance with metamask. You need to import token into metamask using this address below to see it in metamask account</p>
+        <p>Metacoin address: {metacoin.address}</p>
+        <br/>
+        <h2>Step 3: Try to transfer to receipient address</h2>
+        <p>Your current address: {}</p>
         <form onSubmit={handleSubmit}>
         <label>
           Receipient Address:
@@ -69,34 +101,6 @@ const Home = () => {
             <input type="submit" value="Submit" />
         </form>
     </div>)
-
-    // const { active, account, library, connector, activate, deactivate } = useWeb3React();
-
-    // async function connect() {
-    //     try {
-    //       await activate(injected)
-    //       let contract = web3.eth.contract(metaCoinArtifact.abi).at(contract_address);
-
-    //     } catch (ex) {
-    //       console.log(ex)
-    //     }
-    //   }
-    
-    // async function disconnect() {
-    // try {
-    //     deactivate()
-    // } catch (ex) {
-    //     console.log(ex)
-    // }
-    // }
-
-    // return (
-    // <div>
-    //     <p>{active ? "Connected" : "Not Connected"}</p>
-    //     <p>{active ? account : ""}</p>
-    //     <button onClick={active ? disconnect : connect}>{active ? "disconnect" : "connect"}</button>
-    // </div>
-    // );
 }
 
 export default Home;

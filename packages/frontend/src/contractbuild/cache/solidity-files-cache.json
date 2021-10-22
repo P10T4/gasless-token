@@ -1,0 +1,135 @@
+{
+  "_format": "hh-sol-cache-2",
+  "files": {
+    "/Users/kohsweesen/Code/Blockchain-NTU/dev-project/gasless-token/packages/contracts/contracts/MetaCoin.sol": {
+      "lastModificationDate": 1634703396183,
+      "contentHash": "efa6db915571b391b98685fe68d5b62c",
+      "sourceName": "contracts/MetaCoin.sol",
+      "solcConfig": {
+        "version": "0.7.6",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata",
+                "devdoc",
+                "userdoc",
+                "storageLayout",
+                "evm.gasEstimates"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          },
+          "metadata": {
+            "useLiteralContent": true
+          }
+        }
+      },
+      "imports": [
+        "@opengsn/contracts/src/BaseRelayRecipient.sol"
+      ],
+      "versionPragmas": [
+        "^0.7.6"
+      ],
+      "artifacts": [
+        "MetaCoin"
+      ]
+    },
+    "/Users/kohsweesen/Code/Blockchain-NTU/dev-project/gasless-token/packages/contracts/node_modules/@opengsn/contracts/src/BaseRelayRecipient.sol": {
+      "lastModificationDate": 1634703874318,
+      "contentHash": "a4b1e197b7a40001833f134ce8b9f2db",
+      "sourceName": "@opengsn/contracts/src/BaseRelayRecipient.sol",
+      "solcConfig": {
+        "version": "0.7.6",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata",
+                "devdoc",
+                "userdoc",
+                "storageLayout",
+                "evm.gasEstimates"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          },
+          "metadata": {
+            "useLiteralContent": true
+          }
+        }
+      },
+      "imports": [
+        "./interfaces/IRelayRecipient.sol"
+      ],
+      "versionPragmas": [
+        ">=0.7.6"
+      ],
+      "artifacts": [
+        "BaseRelayRecipient"
+      ]
+    },
+    "/Users/kohsweesen/Code/Blockchain-NTU/dev-project/gasless-token/packages/contracts/node_modules/@opengsn/contracts/src/interfaces/IRelayRecipient.sol": {
+      "lastModificationDate": 1634703874371,
+      "contentHash": "5dbb8c10c4f0ad251103872faa31a355",
+      "sourceName": "@opengsn/contracts/src/interfaces/IRelayRecipient.sol",
+      "solcConfig": {
+        "version": "0.7.6",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata",
+                "devdoc",
+                "userdoc",
+                "storageLayout",
+                "evm.gasEstimates"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          },
+          "metadata": {
+            "useLiteralContent": true
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        ">=0.7.6"
+      ],
+      "artifacts": [
+        "IRelayRecipient"
+      ]
+    }
+  }
+}
