@@ -38,11 +38,11 @@
     "ts-node": "^10.3.0",
     "typechain": "^5.2.0",
     "typescript": "^4.4.4",
-    "wait-on": "^6.0.0"
+    "wait-on": "^6.0.0",
+    "@opengsn/gsn": "2.2.0-beta.1"
   },
   "dependencies": {
     "@opengsn/contracts": "2.2.2",
-    "@opengsn/gsn": "2.2.2",
     "@opengsn/provider": "2.2.2"
   }
 }
