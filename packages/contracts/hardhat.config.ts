@@ -14,7 +14,7 @@ task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
 });
 
 const config: HardhatUserConfig = {
-  defaultNetwork: "ganache",
+  // defaultNetwork: "ganache",
   paths: {
     sources: "./contracts",
     tests: "./test",
@@ -51,9 +51,25 @@ const config: HardhatUserConfig = {
   networks: {
     hardhat: {
       chainId: 1337, // temporary for MetaMask support: https://github.com/MetaMask/metamask-extension/issues/10290
+      initialBaseFeePerGas: 0,
+      accounts: [
+        {
+          privateKey: '0x2c6036688de3383aac61e305b3bf91bc567f508ce01db108d17e62ca364a2488',
+          balance: '10000000000000000000000'
+        },
+        {
+          privateKey: '0x6d61bdbd9c2cd61f2be4b8aaf3cb930cb317028389f8f7f7f454ccc98d36d4f5',
+          balance: '10000000000000000000000'
+        },
+        {
+          privateKey: '0x21f33ccbc687ce720efee931d205f8f7b77d40c6cd2863c1cc61fc0a472c4cc9',
+          balance: '10000000000000000000000'
+        }
+      ]
     },
     ganache: {
-      url: 'http://localhost:8545'
+      url: 'http://localhost:8545',
+      chainId: 1337,
     }
   },
   namedAccounts: {
