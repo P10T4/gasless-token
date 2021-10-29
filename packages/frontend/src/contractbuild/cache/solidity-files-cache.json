@@ -2,8 +2,8 @@
   "_format": "hh-sol-cache-2",
   "files": {
     "/Users/kohsweesen/Code/Blockchain-NTU/project/gasless-token/packages/contracts/contracts/FreeCoin.sol": {
-      "lastModificationDate": 1635526112437,
-      "contentHash": "62234e74c9ffc53fdbb3f3061d89a477",
+      "lastModificationDate": 1635526417133,
+      "contentHash": "29dd1b33848c92abb1de15dbca8eea12",
       "sourceName": "contracts/FreeCoin.sol",
       "solcConfig": {
         "version": "0.7.6",
