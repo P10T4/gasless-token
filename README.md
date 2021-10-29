@@ -9,12 +9,12 @@ yarn setup
 ## Start running locally
 To start, open two terminal windows in the project root. 
 
-In first window, run the following to start local blockchain node together with gsn network
+In first window, run the following to start local blockchain node together with gsn network. To view some predefined accounts that was initialised in the blockchain network, can refer to `packages/contracts/hardhat.config.ts` under network accounts
 ```
 yarn start:node
 ```
 
-In second window, run the following to compile and deploy contract to local node, as well as starting frontend react app
+In second window, run the following to copy the deployed contract artifacts into frontend code, as well as starting frontend react app
 ```
-yarn deploy:local
+yarn start:app
 ```
