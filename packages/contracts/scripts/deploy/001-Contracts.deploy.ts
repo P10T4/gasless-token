@@ -1,6 +1,6 @@
 import { HardhatRuntimeEnvironment } from "hardhat/types";
 import { DeployFunction } from "hardhat-deploy/types";
-import forwarder from "../../build/gsn/Forwarder.json";
+import forwarder from "../../gsn/Forwarder.json";
 
 const deployFunc: DeployFunction = async (
   hre: HardhatRuntimeEnvironment
