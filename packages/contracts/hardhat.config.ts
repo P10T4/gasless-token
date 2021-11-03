@@ -20,7 +20,7 @@ const config: HardhatUserConfig = {
     tests: './test',
     artifacts: './build/artifacts',
     cache: './build/cache',
-    // deploy: "./scripts/deploy",
+    deploy: './scripts/deploy',
   },
   solidity: {
     compilers: [
