@@ -14,7 +14,7 @@
     "deleteExistingBuild": "rm -rf ../frontend/src/contractbuild && rm -rf ../frontend/src/contractdeployments",
     "copybuild": "cp -rf build ../frontend/src/contractbuild && cp -r deployments ../frontend/src/contractdeployments",
     "start:node": "concurrently --kill-others 'yarn hardhat node' 'wait-on tcp:8545 && yarn gsn'",
-    "start:app": "yarn deploy && yarn deleteExistingBuild && yarn copybuild"
+    "start:app": "cp -rf build/gsn gsn && yarn deploy && yarn deleteExistingBuild && yarn copybuild"
   },
   "keywords": [],
   "author": "",
