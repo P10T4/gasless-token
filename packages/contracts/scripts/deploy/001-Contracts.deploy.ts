@@ -1,29 +1,27 @@
-import { HardhatRuntimeEnvironment } from "hardhat/types";
-import { DeployFunction } from "hardhat-deploy/types";
-import forwarder from "../../gsn/Forwarder.json";
+import { HardhatRuntimeEnvironment } from 'hardhat/types';
+import { DeployFunction } from 'hardhat-deploy/types';
+import forwarder from '../../gsn/Forwarder.json';
 
-const deployFunc: DeployFunction = async (
-  hre: HardhatRuntimeEnvironment
-) => {
+const deployFunc: DeployFunction = async (hre: HardhatRuntimeEnvironment) => {
   const { deployer } = await hre.getNamedAccounts();
   const chainId = await hre.getChainId();
 
   console.log(deployer);
 
-  await hre.deployments.deploy("FreeCoin", {
+  await hre.deployments.deploy('FreeCoin', {
     from: deployer,
     args: [chainId], //need to edit this
     log: true,
   });
 
-  await hre.deployments.deploy("RelayReceipient", {
+  await hre.deployments.deploy('RelayReceipient', {
     from: deployer,
     args: [forwarder.address], //need to edit this
     log: true,
   });
 };
 
-deployFunc.tags = ["Contracts"];
+deployFunc.tags = ['Contracts'];
 
 export default deployFunc;
 
