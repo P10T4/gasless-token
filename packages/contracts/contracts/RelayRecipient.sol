@@ -19,7 +19,7 @@ interface IFreeCoin {
   ) external;
 }
 
-contract RelayReceipient is BaseRelayRecipient {
+contract RelayRecipient is BaseRelayRecipient {
   constructor(address forwarder) public {
     trustedForwarder = forwarder;
   }
