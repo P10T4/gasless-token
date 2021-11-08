@@ -1,5 +1,5 @@
 import WalletStateManager from "../utils/WalletStateManager";
-import relayReceipient from "../contractdeployments/localhost/RelayReceipient.json";
+import relayRecipient from "../contractdeployments/localhost/RelayRecipient.json";
 import { ethers, providers, Signer } from 'ethers'
 import freecoin from "../contractdeployments/localhost/FreeCoin.json";
 import { Web3Provider, Provider } from '@ethersproject/providers';
@@ -105,7 +105,7 @@ class PermitSigner {
         this.fromAddress = address;
         this.expiry = Date.now() + 120;
         this.nonce = await this.getNonce();
-        this.spender = relayReceipient.address;
+        this.spender = relayRecipient.address;
     }
 
     async getNonce() {

@@ -1,7 +1,7 @@
 import { ethers, providers, Signer } from 'ethers'
 import { Web3Provider, Provider } from '@ethersproject/providers';
 import paymaster from "../contractbuild/gsn/Paymaster.json";
-import relayReceipient from "../contractdeployments/localhost/RelayReceipient.json";
+import relayRecipient from "../contractdeployments/localhost/RelayRecipient.json";
 import freecoin from "../contractdeployments/localhost/FreeCoin.json";
 const gsn = require('@opengsn/provider')
 

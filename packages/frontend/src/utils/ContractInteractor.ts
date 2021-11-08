@@ -1,7 +1,7 @@
 import { ethers, providers, Signer } from 'ethers'
 import { Web3Provider, Provider } from '@ethersproject/providers';
 import paymaster from "../contractbuild/gsn/Paymaster.json";
-import relayReceipient from "../contractdeployments/localhost/RelayReceipient.json";
+import relayRecipient from "../contractdeployments/localhost/RelayRecipient.json";
 import freecoin from "../contractdeployments/localhost/FreeCoin.json";
 import WalletStateManager from "../utils/WalletStateManager";
 import PermitSigner from '../utils/PermitSigner';
@@ -23,7 +23,7 @@ class ContractInteractor {
 	async mintFreeToken() {
         if (typeof (window as any).ethereum !== 'undefined') {
         	const {provider} = await WalletStateManager.getInstance().getWalletState();
-            const contract = new ethers.Contract(relayReceipient.address, relayReceipient.abi, provider.getSigner() as Signer)
+            const contract = new ethers.Contract(relayRecipient.address, relayRecipient.abi, provider.getSigner() as Signer)
             const transaction = await contract.mint(freecoin.address,100);
             await transaction.wait()
         }
@@ -47,7 +47,7 @@ class ContractInteractor {
     async transferToken(destinationAddress: string, amount: number) {
         if (typeof (window as any).ethereum !== 'undefined') {
             const {provider} = await WalletStateManager.getInstance().getWalletState();
-            const contract = new ethers.Contract(relayReceipient.address, relayReceipient.abi, provider.getSigner() as Signer)
+            const contract = new ethers.Contract(relayRecipient.address, relayRecipient.abi, provider.getSigner() as Signer)
             const transaction = await contract.transferToken(freecoin.address ,destinationAddress, amount)
             await transaction.wait();
         }
@@ -57,8 +57,8 @@ class ContractInteractor {
         var result = await PermitSigner.getInstance().signTransferPermit();
         console.log(result);
         const {provider, address} = await WalletStateManager.getInstance().getWalletState();
-        const contract = new ethers.Contract(relayReceipient.address, relayReceipient.abi, provider.getSigner() as Signer)
-        const transaction = await contract.permit(freecoin.address, address, relayReceipient.address, result.nonce, (result as any).expiry, result.allowed, result.v, result.r, result.s);
+        const contract = new ethers.Contract(relayRecipient.address, relayRecipient.abi, provider.getSigner() as Signer)
+        const transaction = await contract.permit(freecoin.address, address, relayRecipient.address, result.nonce, (result as any).expiry, result.allowed, result.v, result.r, result.s);
         await transaction.wait();
     }
 

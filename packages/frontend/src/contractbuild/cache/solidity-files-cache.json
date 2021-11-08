@@ -45,10 +45,10 @@
         "FreeCoin"
       ]
     },
-    "/Users/kohsweesen/Code/Blockchain-NTU/project/gasless-token/packages/contracts/contracts/RelayReceipient.sol": {
+    "/Users/kohsweesen/Code/Blockchain-NTU/project/gasless-token/packages/contracts/contracts/RelayRecipient.sol": {
       "lastModificationDate": 1635500666351,
       "contentHash": "67b8227ec14451f3a971afaaf30cbb62",
-      "sourceName": "contracts/RelayReceipient.sol",
+      "sourceName": "contracts/RelayRecipient.sol",
       "solcConfig": {
         "version": "0.7.6",
         "settings": {
@@ -88,7 +88,7 @@
       ],
       "artifacts": [
         "IFreeCoin",
-        "RelayReceipient"
+        "RelayRecipient"
       ]
     },
     "/Users/kohsweesen/Code/Blockchain-NTU/project/gasless-token/packages/contracts/node_modules/@opengsn/contracts/src/BaseRelayRecipient.sol": {

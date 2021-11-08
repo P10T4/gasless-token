@@ -14,7 +14,7 @@ const deployFunc: DeployFunction = async (hre: HardhatRuntimeEnvironment) => {
     log: true,
   });
 
-  await hre.deployments.deploy('RelayReceipient', {
+  await hre.deployments.deploy('RelayRecipient', {
     from: deployer,
     args: [forwarder.address], //need to edit this
     log: true,

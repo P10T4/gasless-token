@@ -2,7 +2,7 @@ import React from 'react';
 import { ethers, providers, Signer } from 'ethers'
 import { Web3Provider, Provider } from '@ethersproject/providers';
 import paymaster from "../contractbuild/gsn/Paymaster.json";
-import relayReceipient from "../contractdeployments/localhost/RelayReceipient.json";
+import relayRecipient from "../contractdeployments/localhost/RelayRecipient.json";
 import freecoin from "../contractdeployments/localhost/FreeCoin.json";
 import WalletStateManager from "../utils/WalletStateManager";
 import ContractInteractor from "../utils/ContractInteractor";
@@ -56,11 +56,11 @@ const Home = () => {
         <button onClick={ContractInteractor.getInstance().tokenSubmitPermit}>sign</button>
         <br/>
         <br/>
-        <h2>Step 4: Try to transfer to receipient address</h2>
+        <h2>Step 4: Try to transfer to recipient address</h2>
         <p>Your current address: {userAddress}</p>
         <form onSubmit={handleSubmit}>
          <label>
-          Receipient Address:
+          Recipient Address:
           <input type="text" value={destinationAddress} onChange={(event) => setDestinationAddress(event.target.value)} />
          </label>
          <label>
