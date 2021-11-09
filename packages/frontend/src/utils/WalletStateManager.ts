@@ -1,20 +1,21 @@
 import { ethers, providers, Signer } from 'ethers'
 import { Web3Provider, Provider } from '@ethersproject/providers';
 import paymaster from "../contractbuild/gsn/Paymaster.json";
+import tokenPaymaster from '../contractdeployments/localhost/TokenPaymaster.json'
 import relayRecipient from "../contractdeployments/localhost/RelayRecipient.json";
 import freecoin from "../contractdeployments/localhost/FreeCoin.json";
 const gsn = require('@opengsn/provider')
 
 type WalletState = {
-	provider: Web3Provider,
-	address: string,
+    provider: Web3Provider,
+    address: string,
 }
 
 
 class WalletStateManager {
 
-	private static instance: WalletStateManager;
-	private static walletState: WalletState;
+    private static instance: WalletStateManager;
+    private static walletState: WalletState;
 
     private constructor() { }
 
@@ -26,17 +27,17 @@ class WalletStateManager {
     }
 
     public async getWalletState(): Promise<WalletState> {
-    	if (WalletStateManager.walletState) {
-    		return WalletStateManager.walletState;
-    	}
-    	var provider = await this.getProvider();
-    	var address = await this.getUserAddress(provider);
-    	const newState: WalletState = {
-    		provider: provider,
-    		address: address
-    	}
-    	WalletStateManager.walletState = newState;
-    	return newState;
+        if (WalletStateManager.walletState) {
+            return WalletStateManager.walletState;
+        }
+        var provider = await this.getProvider();
+        var address = await this.getUserAddress(provider);
+        const newState: WalletState = {
+            provider: provider,
+            address: address
+        }
+        WalletStateManager.walletState = newState;
+        return newState;
     }
 
     public async requestAccount() {

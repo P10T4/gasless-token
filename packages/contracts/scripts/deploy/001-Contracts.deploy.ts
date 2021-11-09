@@ -1,6 +1,7 @@
 import { HardhatRuntimeEnvironment } from 'hardhat/types';
 import { DeployFunction } from 'hardhat-deploy/types';
 import forwarder from '../../gsn/Forwarder.json';
+import { BigNumber } from 'ethers';
 
 const deployFunc: DeployFunction = async (hre: HardhatRuntimeEnvironment) => {
   const { deployer } = await hre.getNamedAccounts();
@@ -17,6 +18,24 @@ const deployFunc: DeployFunction = async (hre: HardhatRuntimeEnvironment) => {
   await hre.deployments.deploy('RelayRecipient', {
     from: deployer,
     args: [forwarder.address], //need to edit this
+    log: true,
+  });
+
+  await hre.deployments.deploy('TestToken', {
+    from: deployer,
+    log: true,
+  });
+
+  let testUniswap = await hre.deployments.deploy('TestUniswap', {
+    from: deployer,
+    args: [1, 1],
+    value: BigNumber.from(1),
+    log: true,
+  });
+
+  await hre.deployments.deploy('TokenPaymaster', {
+    from: deployer,
+    args: [[testUniswap.address]],
     log: true,
   });
 };

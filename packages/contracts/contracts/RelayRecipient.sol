@@ -4,6 +4,8 @@ pragma solidity ^0.7.6;
 import '@opengsn/contracts/src/BaseRelayRecipient.sol';
 import '@openzeppelin/contracts/token/ERC20/IERC20.sol';
 
+//import 'packages/contracts/contracts/helpers/TestToken.sol';
+
 interface IFreeCoin {
   function mint(uint256 amount, address receiver) external;
 
@@ -28,10 +30,15 @@ contract RelayRecipient is BaseRelayRecipient {
     return '2.2.2';
   }
 
-  function mint(address tokenAddress, uint256 amount) public {
+  function mintFreeCoin(address tokenAddress, uint256 amount) public {
     IFreeCoin token = IFreeCoin(tokenAddress);
     token.mint(amount, _msgSender());
   }
+
+  //  function mintTestToken(address tokenAddress, uint256 amount) public {
+  //    TestToken token = new TestToken();
+  //    token.mint(amount);
+  //  }
 
   function transferToken(
     address tokenAddress,
@@ -39,7 +46,11 @@ contract RelayRecipient is BaseRelayRecipient {
     uint256 amount
   ) public {
     IERC20 token = IERC20(tokenAddress);
-    token.transferFrom(_msgSender(), destinationAddress, amount);
+
+    //    require(token.allowance(tokenAddress, destinationAddress) >= amount, 'Insufficient allowance');
+    require(token.transferFrom(_msgSender(), destinationAddress, amount), 'Transfer failed');
+
+    //        token.transferFrom(_msgSender(), destinationAddress, amount);
   }
 
   function approveTransfer(address tokenAddress, uint256 amount) public returns (bool result) {
