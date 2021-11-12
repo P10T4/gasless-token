@@ -41,7 +41,7 @@ contract RelayRecipient is BaseRelayRecipient {
     address destinationAddress,
     uint256 value
   ) public {
-    TestToken token = TestToken(tokenAddress);
+    ERC20Permit token = ERC20Permit(tokenAddress);
     require(token.transferFrom(_msgSender(), destinationAddress, value), 'Transfer failed');
   }
 
@@ -63,7 +63,7 @@ contract RelayRecipient is BaseRelayRecipient {
     bytes32 r,
     bytes32 s
   ) public {
-    TestToken token = TestToken(tokenAddress);
+    ERC20Permit token = ERC20Permit(tokenAddress);
     token.permit(owner, spender, amount, deadline, v, r, s);
   }
 }
