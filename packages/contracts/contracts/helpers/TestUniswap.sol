@@ -16,7 +16,7 @@ contract TestUniswap is IUniswap {
 
   constructor(uint256 _rateMult, uint256 _rateDiv) public payable {
     //    token = new FreeCoin(1377);
-    token = new TestToken();
+    token = new TestToken(1000);
     rateMult = _rateMult;
     rateDiv = _rateDiv;
     require(msg.value > 0, 'must specify liquidity');

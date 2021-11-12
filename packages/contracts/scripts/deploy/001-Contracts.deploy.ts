@@ -21,8 +21,19 @@ const deployFunc: DeployFunction = async (hre: HardhatRuntimeEnvironment) => {
     log: true,
   });
 
+  // await hre.deployments.deploy('IERC20Permit', {
+  //   from: deployer,
+  //   log: true,
+  // });
+  //
+  // await hre.deployments.deploy('ERC20Permit', {
+  //   from: deployer,
+  //   log: true,
+  // });
+
   await hre.deployments.deploy('TestToken', {
     from: deployer,
+    args: [BigNumber.from(1000)],
     log: true,
   });
 

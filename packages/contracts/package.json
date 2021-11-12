@@ -19,6 +19,7 @@
     "test": "yarn hardhat test"
   },
   "dependencies": {
+    "@nomiclabs/buidler": "^1.4.8",
     "@opengsn/contracts": "2.2.2",
     "@opengsn/provider": "2.2.2"
   },
