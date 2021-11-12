@@ -19,7 +19,7 @@ class ContractInteractor {
     return ContractInteractor.instance;
   }
 
-  async mintFreeToken() {
+  async mintToken() {
     if (typeof (window as any).ethereum !== "undefined") {
       const { provider } =
         await WalletStateManager.getInstance().getWalletState();
@@ -28,7 +28,7 @@ class ContractInteractor {
         relayRecipient.abi,
         provider.getSigner() as Signer
       );
-      const transaction = await contract.mintFreeCoin(testToken.address, 100);
+      const transaction = await contract.mintToken(testToken.address, 100);
       await transaction.wait();
     }
   }

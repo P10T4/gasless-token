@@ -49,7 +49,7 @@ const Home = () => {
   return (
     <div>
       <h2>Step 1: Mint some dai stable coins first for testing purposes</h2>
-      <button onClick={ContractInteractor.getInstance().mintFreeToken}>
+      <button onClick={ContractInteractor.getInstance().mintToken}>
         mint
       </button>
       <br />

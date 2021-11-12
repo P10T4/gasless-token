@@ -31,28 +31,18 @@ contract RelayRecipient is BaseRelayRecipient {
     return '2.2.2';
   }
 
-  function mintFreeCoin(address tokenAddress, uint256 value) public {
-    //    IFreeCoin token = IFreeCoin(tokenAddress);
+  function mintToken(address tokenAddress, uint256 value) public {
     TestToken token = TestToken(tokenAddress);
     token.mint(_msgSender(), value);
   }
-
-  //  function mintTestToken(address tokenAddress, uint256 value) public {
-  //    TestToken token = new TestToken();
-  //    token.mint(value);
-  //  }
 
   function transferToken(
     address tokenAddress,
     address destinationAddress,
     uint256 value
   ) public {
-    //    IERC20 token = IERC20(tokenAddress);
     TestToken token = TestToken(tokenAddress);
-    //    require(token.allowance(tokenAddress, destinationAddress) >= value, 'Insufficient allowance');
     require(token.transferFrom(_msgSender(), destinationAddress, value), 'Transfer failed');
-
-    //        token.transferFrom(_msgSender(), destinationAddress, value);
   }
 
   function approveTransfer(address tokenAddress, uint256 value) public returns (bool result) {
@@ -73,9 +63,7 @@ contract RelayRecipient is BaseRelayRecipient {
     bytes32 r,
     bytes32 s
   ) public {
-    //    IFreeCoin token = IFreeCoin(tokenAddress);
     TestToken token = TestToken(tokenAddress);
     token.permit(owner, spender, amount, deadline, v, r, s);
-    //    token.permit(owner, spender, amount, nonce, deadline, allowed, v, r, s);
   }
 }
