@@ -9,7 +9,7 @@ import { contractToken } from "../utils/addresses";
 
 const AppBar = () => {
   const tabContext = React.useContext(TabContext);
-  const [walletBalance, setWalletBalance] = React.useState(null);
+  const [walletBalance, setWalletBalance] = React.useState<number | null>(null);
 
   React.useEffect(() => {
     checkWalletBalance();
@@ -19,6 +19,7 @@ const AppBar = () => {
     const { enabled } = await WalletStateManager.getInstance().getWalletState();
     if (enabled) {
       const balance = await ContractInteractor.getInstance().getTokenBalance();
+      console.log(balance);
       setWalletBalance(balance);
     } else {
       tabContext.setTabValue(TabValue.walletNotFound);

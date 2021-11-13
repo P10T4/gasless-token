@@ -1,7 +1,3 @@
-import testToken from "../contractdeployments/localhost/TestToken.json";
-import relayRecipient from "../contractdeployments/localhost/RelayRecipient.json";
-import paymaster from "../contractbuild/gsn/Paymaster.json";
-
-export const contractToken = testToken;
-export const contractRelayRecipient = relayRecipient;
-export const contractPaymaster = paymaster;
+export var contractToken = require("../contractdeployments/localhost/TestToken.json");
+export var contractRelayRecipient = require("../contractdeployments/localhost/RelayRecipient.json");
+export var contractPaymaster = require("../contractbuild/gsn/Paymaster.json");

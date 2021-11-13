@@ -53,11 +53,11 @@ contract RelayRecipient is BaseRelayRecipient {
 
   function permitAndTransfer(
     address tokenAddress,
-    uint256 value,
+    uint256 permitAmount,
+    uint256 transferAmount,
     address destinationAddress,
     address owner,
     address spender,
-    uint256 amount,
     uint256 deadline,
     uint256 nonce,
     bool allowed,
@@ -66,7 +66,7 @@ contract RelayRecipient is BaseRelayRecipient {
     bytes32 s
   ) public {
     ERC20Permit token = ERC20Permit(tokenAddress);
-    token.permit(owner, spender, amount, deadline, v, r, s);
-    require(token.transferFrom(_msgSender(), destinationAddress, value), 'Transfer failed');
+    token.permit(owner, spender, permitAmount, deadline, v, r, s);
+    require(token.transferFrom(_msgSender(), destinationAddress, transferAmount), 'Transfer failed');
   }
 }

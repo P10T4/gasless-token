@@ -10,7 +10,7 @@ export const InputTransferBlock = () => {
     event.preventDefault();
     await ContractInteractor.getInstance().transferTokenWithPermit(
       address,
-      parseInt(amount)
+      parseFloat(amount)
     );
     alert(`You have transfered ${amount} token to ${address} successfully!`);
     window.location.reload();

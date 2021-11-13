@@ -32,18 +32,18 @@ class ContractInteractor {
       );
       const transaction = await contract.mintToken(
         contractToken.address,
-        amount
+        ethers.utils.parseEther(`${amount}`).toBigInt()
       );
       await transaction.wait();
     }
   }
 
-  async getTokenBalance() {
+  async getTokenBalance(): Promise<number | null> {
     if (typeof (window as any).ethereum !== "undefined") {
       const { provider, address } =
         await WalletStateManager.getInstance().getWalletState();
       if (!provider) {
-        return;
+        return null;
       }
       const signer = provider.getSigner();
       const contract = new ethers.Contract(
@@ -53,12 +53,12 @@ class ContractInteractor {
       );
       try {
         const data = await contract.balanceOf(address);
-        return data.toNumber();
+        return parseFloat(ethers.utils.formatEther(data));
       } catch (err) {
         return 0;
-        console.log("Error: ", err);
       }
     }
+    return 0;
   }
 
   async transferTokenWithPermit(destinationAddress: string, amount: number) {
@@ -78,10 +78,10 @@ class ContractInteractor {
       const permitTransaction = await contract.permitAndTransfer(
         contractToken.address,
         amount,
+        ethers.utils.parseEther(`${amount}`).toBigInt(),
         destinationAddress,
         address,
         contractRelayRecipient.address,
-        amount,
         (result as any).deadline,
         result.nonce,
         true,
