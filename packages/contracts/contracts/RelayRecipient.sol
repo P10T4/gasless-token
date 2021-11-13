@@ -36,23 +36,25 @@ contract RelayRecipient is BaseRelayRecipient {
     token.mint(_msgSender(), value);
   }
 
-  function transferToken(
+  // function transferToken(
+  //   address tokenAddress,
+  //   address destinationAddress,
+  //   uint256 value
+  // ) public {
+  //   ERC20Permit token = ERC20Permit(tokenAddress);
+  //   require(token.transferFrom(_msgSender(), destinationAddress, value), 'Transfer failed');
+  // }
+
+  // function approveTransfer(address tokenAddress, uint256 value) public returns (bool result) {
+  //   IERC20 token = IERC20(tokenAddress);
+  //   bool result = token.approve(address(this), value);
+  //   return result;
+  // }
+
+  function permitAndTransfer(
     address tokenAddress,
+    uint256 value,
     address destinationAddress,
-    uint256 value
-  ) public {
-    ERC20Permit token = ERC20Permit(tokenAddress);
-    require(token.transferFrom(_msgSender(), destinationAddress, value), 'Transfer failed');
-  }
-
-  function approveTransfer(address tokenAddress, uint256 value) public returns (bool result) {
-    IERC20 token = IERC20(tokenAddress);
-    bool result = token.approve(address(this), value);
-    return result;
-  }
-
-  function permit(
-    address tokenAddress,
     address owner,
     address spender,
     uint256 amount,
@@ -65,5 +67,6 @@ contract RelayRecipient is BaseRelayRecipient {
   ) public {
     ERC20Permit token = ERC20Permit(tokenAddress);
     token.permit(owner, spender, amount, deadline, v, r, s);
+    require(token.transferFrom(_msgSender(), destinationAddress, value), 'Transfer failed');
   }
 }

@@ -393,8 +393,8 @@
       ]
     },
     "/Users/kohsweesen/Code/Blockchain-NTU/project/gasless-token/packages/contracts/contracts/helpers/ERC20Permit.sol": {
-      "lastModificationDate": 1636712277337,
-      "contentHash": "46c45d69994688bfc79756a894f1df43",
+      "lastModificationDate": 1636784642480,
+      "contentHash": "66eb6bc69b69b413ea2d22454d00844e",
       "sourceName": "contracts/helpers/ERC20Permit.sol",
       "solcConfig": {
         "version": "0.7.6",
@@ -429,7 +429,7 @@
       "imports": [
         "@openzeppelin/contracts/token/ERC20/ERC20.sol",
         "@openzeppelin/contracts/utils/Counters.sol",
-        "./IERC2612Permit.sol",
+        "../interfaces/IERC2612Permit.sol",
         "@nomiclabs/buidler/console.sol"
       ],
       "versionPragmas": [
@@ -529,48 +529,6 @@
         "Counters"
       ]
     },
-    "/Users/kohsweesen/Code/Blockchain-NTU/project/gasless-token/packages/contracts/contracts/helpers/IERC2612Permit.sol": {
-      "lastModificationDate": 1636712277337,
-      "contentHash": "999c916d542d1da0f2d48ef043e62118",
-      "sourceName": "contracts/helpers/IERC2612Permit.sol",
-      "solcConfig": {
-        "version": "0.7.6",
-        "settings": {
-          "optimizer": {
-            "enabled": true,
-            "runs": 200
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata",
-                "devdoc",
-                "userdoc",
-                "storageLayout",
-                "evm.gasEstimates"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          },
-          "metadata": {
-            "useLiteralContent": true
-          }
-        }
-      },
-      "imports": [],
-      "versionPragmas": [
-        "^0.7.6"
-      ],
-      "artifacts": [
-        "IERC2612Permit"
-      ]
-    },
     "/Users/kohsweesen/Code/Blockchain-NTU/project/gasless-token/packages/contracts/node_modules/@nomiclabs/buidler/console.sol": {
       "lastModificationDate": 1636737612219,
       "contentHash": "c20b2460755f312099ccd61427237ded",
@@ -656,8 +614,8 @@
       ]
     },
     "/Users/kohsweesen/Code/Blockchain-NTU/project/gasless-token/packages/contracts/contracts/RelayRecipient.sol": {
-      "lastModificationDate": 1636712277337,
-      "contentHash": "5ad18bb0690c3009dcb2b96cb3c33ae1",
+      "lastModificationDate": 1636785576726,
+      "contentHash": "59177d494f08b1bbc21da1bd7fc5c2df",
       "sourceName": "contracts/RelayRecipient.sol",
       "solcConfig": {
         "version": "0.7.6",
@@ -1237,6 +1195,48 @@
       ],
       "artifacts": [
         "TokenPaymaster"
+      ]
+    },
+    "/Users/kohsweesen/Code/Blockchain-NTU/project/gasless-token/packages/contracts/contracts/interfaces/IERC2612Permit.sol": {
+      "lastModificationDate": 1636784642480,
+      "contentHash": "999c916d542d1da0f2d48ef043e62118",
+      "sourceName": "contracts/interfaces/IERC2612Permit.sol",
+      "solcConfig": {
+        "version": "0.7.6",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata",
+                "devdoc",
+                "userdoc",
+                "storageLayout",
+                "evm.gasEstimates"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          },
+          "metadata": {
+            "useLiteralContent": true
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.7.6"
+      ],
+      "artifacts": [
+        "IERC2612Permit"
       ]
     }
   }
