@@ -4,6 +4,8 @@ import Spacer from "./Spacer";
 import { TabContext, TabValue } from "./Home";
 import WalletStateManager from "../utils/WalletStateManager";
 import ContractInteractor from "../utils/ContractInteractor";
+import { CopyToClipboard } from "react-copy-to-clipboard";
+import testToken from "../contractdeployments/localhost/TestToken.json";
 
 const AppBar = () => {
   const tabContext = React.useContext(TabContext);
@@ -54,6 +56,16 @@ const AppBar = () => {
         </button>
       </div>
       <Spacer />
+      <CopyToClipboard text={testToken.address}>
+        <button
+          className="button"
+          style={{ justifySelf: "end", backgroundColor: "green" }}
+          onClick={() => {}}
+        >
+          {"Copy Token Address"}
+        </button>
+      </CopyToClipboard>
+
       <button
         className="button"
         style={{ justifySelf: "end" }}
