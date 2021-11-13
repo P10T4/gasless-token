@@ -15,7 +15,7 @@
     "lint": "yarn solhint 'contracts/**/*.sol' && yarn prettier --check './**'",
     "lint:fix": "yarn sort-package-json && yarn prettier --write './**' && yarn solhint --fix 'contracts/**/*.sol'",
     "start:app": "cp -rf build/gsn/. gsn && yarn deploy && yarn deleteExistingBuild && yarn copybuild",
-    "start:node": "concurrently --kill-others \"yarn hardhat node\" \"wait-on tcp:8545 && yarn gsn start localhost\" ",
+    "start:node": "yarn concurrently --kill-others \"yarn hardhat node\" \"wait-on tcp:8545 && yarn gsn start localhost\" ",
     "test": "yarn hardhat test"
   },
   "dependencies": {

@@ -80,7 +80,7 @@ class ContractInteractor {
         amount,
         destinationAddress,
         address,
-        contractToken.address,
+        contractRelayRecipient.address,
         amount,
         (result as any).deadline,
         result.nonce,

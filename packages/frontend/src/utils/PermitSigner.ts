@@ -1,8 +1,7 @@
 import WalletStateManager from "../utils/WalletStateManager";
-import relayRecipient from "../contractdeployments/localhost/RelayRecipient.json";
 import { ethers } from "ethers";
 import { Provider } from "@ethersproject/providers";
-import { contractToken } from "./addresses";
+import { contractRelayRecipient, contractToken } from "./addresses";
 
 class PermitSigner {
   private static instance: PermitSigner;
@@ -109,7 +108,7 @@ class PermitSigner {
     const { provider, address } =
       await WalletStateManager.getInstance().getWalletState();
     this.owner = address;
-    this.spender = relayRecipient.address;
+    this.spender = contractRelayRecipient.address;
     this.value = value;
     this.deadline = Date.now() + 120;
     this.nonce = await this.getNonce();
