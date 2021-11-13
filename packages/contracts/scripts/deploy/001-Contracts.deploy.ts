@@ -44,9 +44,28 @@ const deployFunc: DeployFunction = async (hre: HardhatRuntimeEnvironment) => {
     log: true,
   });
 
+  let unupgradableToken = await hre.deployments.deploy('UnupgradableToken', {
+    from: deployer,
+    args: [BigNumber.from(1000)],
+    log: true,
+  });
+
+  await hre.deployments.deploy('UnupgradableERC20Permit', {
+    from: deployer,
+    args: [unupgradableToken.address],
+    log: true,
+  });
+
+  let unupgradableTokenUniswap = await hre.deployments.deploy('UnupgradableTokenUniswap', {
+    from: deployer,
+    args: [1, 1],
+    value: BigNumber.from(1),
+    log: true,
+  });
+
   await hre.deployments.deploy('TokenPaymaster', {
     from: deployer,
-    args: [[testUniswap.address]],
+    args: [[testUniswap.address, unupgradableTokenUniswap.address]],
     log: true,
   });
 };

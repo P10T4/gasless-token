@@ -5,8 +5,8 @@ import '@openzeppelin/contracts/utils/Counters.sol';
 
 import {IERC2612Permit} from '../interfaces/IERC2612Permit.sol';
 
-import '@nomiclabs/buidler/console.sol';
-
+//import '@nomiclabs/buidler/console.sol';
+import 'hardhat/console.sol';
 //import 'hardhat/console.sol';
 
 /**
@@ -99,9 +99,7 @@ abstract contract ERC20Permit is ERC20, IERC2612Permit {
     }
 
     address signer = _recover(hash, v, r, s);
-
     require(signer == owner, 'ERC20Permit: invalid signature');
-
     _nonces[owner].increment();
     _approve(owner, spender, amount);
   }

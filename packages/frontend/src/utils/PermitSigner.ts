@@ -3,6 +3,7 @@ import relayRecipient from "../contractdeployments/localhost/RelayRecipient.json
 import { ethers } from "ethers";
 import freeCoin from "../contractdeployments/localhost/FreeCoin.json";
 import testToken from "../contractdeployments/localhost/TestToken.json";
+import unupgradableERC20Permit from "../contractdeployments/localhost/UnupgradableERC20Permit.json";
 import { Provider } from "@ethersproject/providers";
 
 class PermitSigner {
@@ -76,10 +77,10 @@ class PermitSigner {
       },
       primaryType: "Permit",
       domain: {
-        name: "Test Token",
+        name: "Unupgradable Token",
         version: "1",
         chainId: 1337,
-        verifyingContract: testToken.address,
+        verifyingContract: unupgradableERC20Permit.address,
       },
       message: message,
     });

@@ -2,6 +2,7 @@ import { ethers, Signer } from "ethers";
 import { Provider } from "@ethersproject/providers";
 import relayRecipient from "../contractdeployments/localhost/RelayRecipient.json";
 import testToken from "../contractdeployments/localhost/TestToken.json";
+import unupgradableERC20Permit from "../contractdeployments/localhost/UnupgradableERC20Permit.json";
 import WalletStateManager from "../utils/WalletStateManager";
 import PermitSigner from "../utils/PermitSigner";
 
@@ -31,7 +32,11 @@ class ContractInteractor {
         relayRecipient.abi,
         provider.getSigner() as Signer
       );
-      const transaction = await contract.mintToken(testToken.address, amount);
+      // const transaction = await contract.mintToken(testToken.address, amount);
+      const transaction = await contract.mintUnupgradableToken(
+        unupgradableERC20Permit.address,
+        amount
+      );
       await transaction.wait();
     }
   }
@@ -45,8 +50,8 @@ class ContractInteractor {
       }
       const signer = provider.getSigner();
       const contract = new ethers.Contract(
-        testToken.address,
-        testToken.abi,
+        unupgradableERC20Permit.address,
+        unupgradableERC20Permit.abi,
         provider as Provider
       );
       try {
@@ -72,7 +77,7 @@ class ContractInteractor {
         provider.getSigner() as Signer
       );
       const transaction = await contract.transferToken(
-        testToken.address,
+        unupgradableERC20Permit.address,
         destinationAddress,
         amount
       );
@@ -94,7 +99,7 @@ class ContractInteractor {
       provider.getSigner() as Signer
     );
     const transaction = await contract.permit(
-      testToken.address,
+      unupgradableERC20Permit.address,
       address,
       relayRecipient.address,
       100,
@@ -123,7 +128,7 @@ class ContractInteractor {
       );
 
       const permitTransaction = await contract.permit(
-        testToken.address,
+        unupgradableERC20Permit.address,
         address,
         relayRecipient.address,
         amount,
@@ -137,7 +142,7 @@ class ContractInteractor {
       await permitTransaction.wait();
 
       const transaction = await contract.transferToken(
-        testToken.address,
+        unupgradableERC20Permit.address,
         destinationAddress,
         amount
       );
