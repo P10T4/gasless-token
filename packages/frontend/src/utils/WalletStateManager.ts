@@ -1,6 +1,6 @@
 import { ethers } from "ethers";
 import { Web3Provider } from "@ethersproject/providers";
-import paymaster from "../contractbuild/gsn/Paymaster.json";
+import { contractPaymaster } from "./addresses";
 
 const gsn = require("@opengsn/provider");
 
@@ -67,7 +67,7 @@ class WalletStateManager {
   private async getProvider(): Promise<Web3Provider> {
     // return new ethers.providers.Web3Provider((window as any).ethereum);
     let config = {
-      paymasterAddress: paymaster.address,
+      paymasterAddress: contractPaymaster.address,
       verbose: true,
     };
     let gsnProvider = await gsn.RelayProvider.newProvider({

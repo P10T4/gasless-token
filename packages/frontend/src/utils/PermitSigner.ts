@@ -1,8 +1,8 @@
 import WalletStateManager from "../utils/WalletStateManager";
 import relayRecipient from "../contractdeployments/localhost/RelayRecipient.json";
 import { ethers } from "ethers";
-import testToken from "../contractdeployments/localhost/TestToken.json";
 import { Provider } from "@ethersproject/providers";
+import { contractToken } from "./addresses";
 
 class PermitSigner {
   private static instance: PermitSigner;
@@ -78,7 +78,7 @@ class PermitSigner {
         name: "Test Token",
         version: "1",
         chainId: 1337,
-        verifyingContract: testToken.address,
+        verifyingContract: contractToken.address,
       },
       message: message,
     });
@@ -123,8 +123,8 @@ class PermitSigner {
     }
     const signer = provider.getSigner();
     const contract = new ethers.Contract(
-      testToken.address,
-      testToken.abi,
+      contractToken.address,
+      contractToken.abi,
       provider as Provider
     );
     const data = await contract.nonces(address);
