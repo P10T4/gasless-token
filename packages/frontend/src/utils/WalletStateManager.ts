@@ -5,8 +5,9 @@ import paymaster from "../contractbuild/gsn/Paymaster.json";
 const gsn = require("@opengsn/provider");
 
 type WalletState = {
-  provider: Web3Provider;
+  provider: Web3Provider | undefined;
   address: string;
+  enabled: boolean;
 };
 
 class WalletStateManager {
@@ -26,11 +27,22 @@ class WalletStateManager {
     if (WalletStateManager.walletState) {
       return WalletStateManager.walletState;
     }
+    const walletEnabled = await this.enableWallet();
+    if (!walletEnabled) {
+      const newState: WalletState = {
+        provider: undefined,
+        address: "",
+        enabled: false,
+      };
+      WalletStateManager.walletState = newState;
+      return newState;
+    }
     var provider = await this.getProvider();
     var address = await this.getUserAddress(provider);
     const newState: WalletState = {
       provider: provider,
       address: address,
+      enabled: walletEnabled,
     };
     WalletStateManager.walletState = newState;
     return newState;
@@ -38,6 +50,18 @@ class WalletStateManager {
 
   public async requestAccount() {
     await (window as any).ethereum.request({ method: "eth_requestAccounts" });
+  }
+
+  private async enableWallet() {
+    if ((window as any).ethereum) {
+      try {
+        await (window as any).ethereum.enable();
+        return true;
+      } catch (e) {
+        return false;
+      }
+    }
+    return false;
   }
 
   private async getProvider(): Promise<Web3Provider> {

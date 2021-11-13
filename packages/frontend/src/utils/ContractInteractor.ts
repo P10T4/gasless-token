@@ -19,16 +19,19 @@ class ContractInteractor {
     return ContractInteractor.instance;
   }
 
-  async mintToken() {
+  async mintToken(amount: number) {
     if (typeof (window as any).ethereum !== "undefined") {
       const { provider } =
         await WalletStateManager.getInstance().getWalletState();
+      if (!provider) {
+        return;
+      }
       const contract = new ethers.Contract(
         relayRecipient.address,
         relayRecipient.abi,
         provider.getSigner() as Signer
       );
-      const transaction = await contract.mintToken(testToken.address, 100);
+      const transaction = await contract.mintToken(testToken.address, amount);
       await transaction.wait();
     }
   }
@@ -37,6 +40,9 @@ class ContractInteractor {
     if (typeof (window as any).ethereum !== "undefined") {
       const { provider, address } =
         await WalletStateManager.getInstance().getWalletState();
+      if (!provider) {
+        return;
+      }
       const signer = provider.getSigner();
       const contract = new ethers.Contract(
         testToken.address,
@@ -57,6 +63,9 @@ class ContractInteractor {
     if (typeof (window as any).ethereum !== "undefined") {
       const { provider } =
         await WalletStateManager.getInstance().getWalletState();
+      if (!provider) {
+        return;
+      }
       const contract = new ethers.Contract(
         relayRecipient.address,
         relayRecipient.abi,
@@ -76,6 +85,9 @@ class ContractInteractor {
     console.log(result);
     const { provider, address } =
       await WalletStateManager.getInstance().getWalletState();
+    if (!provider) {
+      return;
+    }
     const contract = new ethers.Contract(
       relayRecipient.address,
       relayRecipient.abi,
@@ -101,6 +113,9 @@ class ContractInteractor {
       let result = await PermitSigner.getInstance().signTransferPermit(amount);
       const { provider, address } =
         await WalletStateManager.getInstance().getWalletState();
+      if (!provider) {
+        return;
+      }
       const contract = new ethers.Contract(
         relayRecipient.address,
         relayRecipient.abi,

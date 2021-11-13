@@ -119,6 +119,9 @@ class PermitSigner {
   async getNonce() {
     const { provider, address } =
       await WalletStateManager.getInstance().getWalletState();
+    if (!provider) {
+      return 0;
+    }
     const signer = provider.getSigner();
     const contract = new ethers.Contract(
       freeCoin.address,

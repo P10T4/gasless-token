@@ -1,0 +1,67 @@
+.appbar {
+  height: 80px;
+  display: flex;
+  flex-direction: row;
+}
+
+.logo {
+  width: 60px;
+  height: 60px;
+  padding: 20px;
+  align-self: center;
+}
+
+.button {
+  height: 40px;
+  align-self: center;
+  margin-right: 20px;
+  border-radius: 10px;
+  color: white;
+  background-color: #3d5c87;
+  border-color: transparent;
+  border-style: solid;
+  font-weight: 600;
+  font-size: large;
+  padding-inline: 12px;
+}
+
+.button:hover {
+  border-color: gray;
+}
+
+.tabbar {
+  background-color: #111111;
+  border-radius: 18px;
+  display: flex;
+  flex-direction: row;
+  padding: 6px;
+  height: 40px;
+  align-self: center;
+  gap: 14px;
+}
+
+.tabbar-button {
+  border-radius: 12px;
+  background-color: transparent;
+  border-style: solid;
+  border-color: transparent;
+  color: grey;
+  font-weight: 500;
+  font-size: medium;
+  padding-inline: 12px;
+}
+
+.tabbar-button:hover {
+  color: white;
+}
+
+.tabbar-button-selected {
+  border-radius: 12px;
+  background-color: #333333;
+  border-style: solid;
+  border-color: transparent;
+  color: white;
+  font-weight: 500;
+  font-size: medium;
+  padding-inline: 12px;
+}
