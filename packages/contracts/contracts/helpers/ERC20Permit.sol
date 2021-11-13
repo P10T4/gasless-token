@@ -3,7 +3,7 @@ pragma solidity ^0.7.6;
 import '@openzeppelin/contracts/token/ERC20/ERC20.sol';
 import '@openzeppelin/contracts/utils/Counters.sol';
 
-import {IERC2612Permit} from './IERC2612Permit.sol';
+import {IERC2612Permit} from '../interfaces/IERC2612Permit.sol';
 
 import '@nomiclabs/buidler/console.sol';
 
