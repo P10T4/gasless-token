@@ -1,7 +1,6 @@
 import WalletStateManager from "../utils/WalletStateManager";
 import relayRecipient from "../contractdeployments/localhost/RelayRecipient.json";
 import { ethers } from "ethers";
-import freeCoin from "../contractdeployments/localhost/FreeCoin.json";
 import testToken from "../contractdeployments/localhost/TestToken.json";
 import { Provider } from "@ethersproject/providers";
 
@@ -124,8 +123,8 @@ class PermitSigner {
     }
     const signer = provider.getSigner();
     const contract = new ethers.Contract(
-      freeCoin.address,
-      freeCoin.abi,
+      testToken.address,
+      testToken.abi,
       provider as Provider
     );
     const data = await contract.nonces(address);

@@ -9,11 +9,11 @@ const deployFunc: DeployFunction = async (hre: HardhatRuntimeEnvironment) => {
 
   console.log(deployer);
 
-  await hre.deployments.deploy('FreeCoin', {
-    from: deployer,
-    args: [chainId], //need to edit this
-    log: true,
-  });
+  // await hre.deployments.deploy('FreeCoin', {
+  //   from: deployer,
+  //   args: [chainId], //need to edit this
+  //   log: true,
+  // });
 
   await hre.deployments.deploy('RelayRecipient', {
     from: deployer,

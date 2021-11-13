@@ -59,56 +59,7 @@ class ContractInteractor {
     }
   }
 
-  async transferTokenSignOnce(destinationAddress: string, amount: number) {
-    if (typeof (window as any).ethereum !== "undefined") {
-      const { provider } =
-        await WalletStateManager.getInstance().getWalletState();
-      if (!provider) {
-        return;
-      }
-      const contract = new ethers.Contract(
-        relayRecipient.address,
-        relayRecipient.abi,
-        provider.getSigner() as Signer
-      );
-      const transaction = await contract.transferToken(
-        testToken.address,
-        destinationAddress,
-        amount
-      );
-      await transaction.wait();
-    }
-  }
-
-  async tokenSubmitPermit() {
-    var result = await PermitSigner.getInstance().signTransferPermit(0);
-    console.log(result);
-    const { provider, address } =
-      await WalletStateManager.getInstance().getWalletState();
-    if (!provider) {
-      return;
-    }
-    const contract = new ethers.Contract(
-      relayRecipient.address,
-      relayRecipient.abi,
-      provider.getSigner() as Signer
-    );
-    const transaction = await contract.permit(
-      testToken.address,
-      address,
-      relayRecipient.address,
-      100,
-      (result as any).deadline,
-      result.nonce,
-      true,
-      result.v,
-      result.r,
-      result.s
-    );
-    await transaction.wait();
-  }
-
-  async transferTokenSignEverytime(destinationAddress: string, amount: number) {
+  async transferTokenWithPermit(destinationAddress: string, amount: number) {
     if (typeof (window as any).ethereum !== "undefined") {
       let result = await PermitSigner.getInstance().signTransferPermit(amount);
       const { provider, address } =
@@ -122,8 +73,10 @@ class ContractInteractor {
         provider.getSigner() as Signer
       );
 
-      const permitTransaction = await contract.permit(
+      const permitTransaction = await contract.permitAndTransfer(
         testToken.address,
+        amount,
+        destinationAddress,
         address,
         relayRecipient.address,
         amount,
@@ -135,70 +88,8 @@ class ContractInteractor {
         result.s
       );
       await permitTransaction.wait();
-
-      const transaction = await contract.transferToken(
-        testToken.address,
-        destinationAddress,
-        amount
-      );
-      await transaction.wait();
     }
   }
-
-  /*
-          async mintTestToken() {
-              if (typeof (window as any).ethereum !== 'undefined') {
-                  const { provider } = await WalletStateManager.getInstance().getWalletState();
-                  const contract = new ethers.Contract(relayRecipient.address, relayRecipient.abi, provider.getSigner() as Signer);
-                  const transaction = await contract.mint()
-                  await transaction.wait();
-              }
-          }
-
-          async getTokenBalance() {
-              if (typeof (window as any).ethereum !== 'undefined') {
-                  const { provider, address } = await WalletStateManager.getInstance().getWalletState();
-                  const signer = provider.getSigner();
-                  const contract = new ethers.Contract(testToken.address, testToken.abi, provider as Provider);
-                  try {
-                      const data = await contract.balanceOf(address);
-                      return data.toNumber();
-                  } catch (err) {
-                      return 0;
-                      console.log('Error: ', err);
-                  }
-              }
-          }
-
-          async transferToken(destinationAddress: string, amount: number) {
-              if (typeof (window as any).ethereum !== 'undefined') {
-                  const { provider } = await WalletStateManager.getInstance().getWalletState();
-                  const contract = new ethers.Contract(relayRecipient.address, relayRecipient.abi, provider.getSigner() as Signer);
-                  const transaction = await contract.transferToken(testToken.address, destinationAddress, amount);
-                  await transaction.wait();
-              }
-          }
-
-          async tokenSubmitPermit() {
-              var result = await PermitSigner.getInstance().signTransferPermit();
-              console.log(result);
-              const { provider, address } = await WalletStateManager.getInstance().getWalletState();
-              const contract = new ethers.Contract(relayRecipient.address, relayRecipient.abi, provider.getSigner() as Signer);
-              const transaction = await contract.permit(
-                  testToken.address,
-                  address,
-                  relayRecipient.address,
-                  result.nonce,
-                  (result as any).expiry,
-                  result.allowed,
-                  result.v,
-                  result.r,
-                  result.s
-              );
-              await transaction.wait();
-          }
-
-       */
 }
 
 export default ContractInteractor;
