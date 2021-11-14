@@ -1,10 +1,7 @@
 import WalletStateManager from "../utils/WalletStateManager";
-import relayRecipient from "../contractdeployments/localhost/RelayRecipient.json";
 import { ethers } from "ethers";
-import freeCoin from "../contractdeployments/localhost/FreeCoin.json";
-import testToken from "../contractdeployments/localhost/TestToken.json";
-import unupgradableERC20Permit from "../contractdeployments/localhost/UnupgradableERC20Permit.json";
 import { Provider } from "@ethersproject/providers";
+import { contractRelayRecipient, contractToken } from "./addresses";
 
 class PermitSigner {
   private static instance: PermitSigner;
@@ -80,7 +77,7 @@ class PermitSigner {
         name: "Unupgradable Token",
         version: "1",
         chainId: 1337,
-        verifyingContract: unupgradableERC20Permit.address,
+        verifyingContract: contractToken.address,
       },
       message: message,
     });
@@ -111,7 +108,7 @@ class PermitSigner {
     const { provider, address } =
       await WalletStateManager.getInstance().getWalletState();
     this.owner = address;
-    this.spender = relayRecipient.address;
+    this.spender = contractRelayRecipient.address;
     this.value = value;
     this.deadline = Date.now() + 120;
     this.nonce = await this.getNonce();
@@ -125,8 +122,8 @@ class PermitSigner {
     }
     const signer = provider.getSigner();
     const contract = new ethers.Contract(
-      freeCoin.address,
-      freeCoin.abi,
+      contractToken.address,
+      contractToken.abi,
       provider as Provider
     );
     const data = await contract.nonces(address);

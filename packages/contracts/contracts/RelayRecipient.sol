@@ -38,33 +38,28 @@ contract RelayRecipient is BaseRelayRecipient {
     token.mint(_msgSender(), value);
   }
 
-  function mintUnupgradableToken(address tokenAddress, uint256 value) public {
-    UnupgradableToken token = UnupgradableToken(tokenAddress);
-    token.mint(_msgSender(), value);
-  }
+  // function transferToken(
+  //   address tokenAddress,
+  //   address destinationAddress,
+  //   uint256 value
+  // ) public {
+  //   ERC20Permit token = ERC20Permit(tokenAddress);
+  //   require(token.transferFrom(_msgSender(), destinationAddress, value), 'Transfer failed');
+  // }
 
-  function transferToken(
+  // function approveTransfer(address tokenAddress, uint256 value) public returns (bool result) {
+  //   IERC20 token = IERC20(tokenAddress);
+  //   bool result = token.approve(address(this), value);
+  //   return result;
+  // }
+
+  function permitAndTransfer(
     address tokenAddress,
+    uint256 permitAmount,
+    uint256 transferAmount,
     address destinationAddress,
-    uint256 value
-  ) public {
-    UnupgradableERC20Permit t = UnupgradableERC20Permit(tokenAddress);
-    require(t.transferFrom(_msgSender(), destinationAddress, value), 'Transfer failed');
-//    ERC20Permit token = ERC20Permit(tokenAddress);
-//    require(token.transferFrom(_msgSender(), destinationAddress, value), 'Transfer failed');
-  }
-
-  function approveTransfer(address tokenAddress, uint256 value) public returns (bool result) {
-    IERC20 token = IERC20(tokenAddress);
-    bool result = token.approve(address(this), value);
-    return result;
-  }
-
-  function permit(
-    address tokenAddress,
     address owner,
     address spender,
-    uint256 amount,
     uint256 deadline,
     uint256 nonce,
     bool allowed,
@@ -72,9 +67,8 @@ contract RelayRecipient is BaseRelayRecipient {
     bytes32 r,
     bytes32 s
   ) public {
-    ERC20Permit t = UnupgradableERC20Permit(tokenAddress);
-    t.permit(owner, spender, amount, deadline, v, r, s);
-//    ERC20Permit token = ERC20Permit(tokenAddress);
-//    token.permit(owner, spender, amount, deadline, v, r, s);
+    ERC20Permit token = ERC20Permit(tokenAddress);
+    token.permit(owner, spender, permitAmount, deadline, v, r, s);
+    require(token.transferFrom(_msgSender(), destinationAddress, transferAmount), 'Transfer failed');
   }
 }

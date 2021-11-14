@@ -8,9 +8,9 @@ export const InputTransferBlock = () => {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    await ContractInteractor.getInstance().transferTokenSignEverytime(
+    await ContractInteractor.getInstance().transferTokenWithPermit(
       address,
-      parseInt(amount)
+      parseFloat(amount)
     );
     alert(`You have transfered ${amount} token to ${address} successfully!`);
     window.location.reload();
