@@ -1,4 +1,5 @@
 # Bluejay Gasless Token
+![unit test workflow](https://github.com/To-Be-Rename/gasless-token/actions/workflows/contractTest.yml/badge.svg)
 
 ## Setup
 Helps to install all necessary dependencies in all packages
