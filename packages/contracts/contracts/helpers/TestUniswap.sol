@@ -13,9 +13,10 @@ contract TestUniswap is IUniswap {
   uint256 public rateMult;
   uint256 public rateDiv;
 
-  constructor(uint256 _rateMult, uint256 _rateDiv) public payable {
+  constructor(uint256 _rateMult, uint256 _rateDiv, address tokenAddress) public payable {
     //    token = new FreeCoin(1377);
-    token = new TestToken(1000);
+    token = IERC20(tokenAddress);
+    // token = new TestToken(1000);
     rateMult = _rateMult;
     rateDiv = _rateDiv;
     require(msg.value > 0, 'must specify liquidity');
@@ -39,7 +40,7 @@ contract TestUniswap is IUniswap {
     require(address(this).balance > ethBought, 'not enough liquidity');
 
     token.transferFrom(msg.sender, address(this), tokensToSell);
-    msg.sender.transfer(ethBought);
+    msg.sender.send(ethBought);
     return tokensToSell;
   }
 

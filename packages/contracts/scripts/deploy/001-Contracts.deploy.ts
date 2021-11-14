@@ -13,7 +13,7 @@ const deployFunc: DeployFunction = async (hre: HardhatRuntimeEnvironment) => {
     log: true,
   });
 
-  await hre.deployments.deploy('TestToken', {
+  let testToken = await hre.deployments.deploy('TestToken', {
     from: deployer,
     args: [BigNumber.from(1000)],
     log: true,
@@ -21,7 +21,7 @@ const deployFunc: DeployFunction = async (hre: HardhatRuntimeEnvironment) => {
 
   let testUniswap = await hre.deployments.deploy('TestUniswap', {
     from: deployer,
-    args: [1, 1],
+    args: [1, 1, testToken.address],
     value: BigNumber.from(1),
     log: true,
   });
