@@ -16,7 +16,7 @@
     "lint:fix": "yarn sort-package-json && yarn prettier --write './**' && yarn solhint --fix 'contracts/**/*.sol'",
     "start:app": "cp -rf build/gsn/. gsn && yarn deploy && yarn deleteExistingBuild && yarn copybuild",
     "start:node": "yarn concurrently --kill-others \"yarn hardhat node\" \"yarn wait-on tcp:8545 && yarn gsn start localhost\" ",
-    "test": "yarn concurrently --kill-others \"yarn hardhat node > /dev/null\" \"yarn wait-on tcp:8545 && yarn gsn start localhost > /dev/null\" \"yarn wait-on tcp:8545 && yarn hardhat test\" "
+    "test": "yarn concurrently --kill-others --success \"first\"  \"yarn hardhat node > /dev/null\" \"yarn wait-on tcp:8545 && yarn gsn start localhost > /dev/null\" \"yarn wait-on tcp:8545 && yarn hardhat test\" "
   },
   "dependencies": {
     "@nomiclabs/buidler": "^1.4.8",
