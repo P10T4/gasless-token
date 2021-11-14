@@ -28,11 +28,24 @@ const AppBar = () => {
 
   return (
     <div className="appbar">
-      <img
+      {/* <img
         className="logo"
         src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Uniswap_Logo.svg/1026px-Uniswap_Logo.svg.png"
         alt="logo"
-      />
+      /> */}
+      <CopyToClipboard text={contractToken.address}>
+        <button
+          className="button"
+          style={{
+            justifySelf: "end",
+            backgroundColor: "green",
+            marginLeft: "16px",
+          }}
+          onClick={() => {}}
+        >
+          {"Copy Token Address"}
+        </button>
+      </CopyToClipboard>
       <Spacer />
       <div className="tabbar">
         <button
@@ -57,15 +70,6 @@ const AppBar = () => {
         </button>
       </div>
       <Spacer />
-      <CopyToClipboard text={contractToken.address}>
-        <button
-          className="button"
-          style={{ justifySelf: "end", backgroundColor: "green" }}
-          onClick={() => {}}
-        >
-          {"Copy Token Address"}
-        </button>
-      </CopyToClipboard>
 
       <button
         className="button"
