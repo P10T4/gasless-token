@@ -7,21 +7,6 @@ import '@openzeppelin/contracts/token/ERC20/IERC20.sol';
 import './helpers/TestToken.sol';
 import './helpers/ERC20Permit.sol';
 
-interface IFreeCoin {
-  function mint(uint256 value, address receiver) external;
-
-  function permit(
-    address holder,
-    address spender,
-    uint256 nonce,
-    uint256 deadline,
-    bool allowed,
-    uint8 v,
-    bytes32 r,
-    bytes32 s
-  ) external;
-}
-
 contract RelayRecipient is BaseRelayRecipient {
   constructor(address forwarder) public {
     trustedForwarder = forwarder;
@@ -35,21 +20,6 @@ contract RelayRecipient is BaseRelayRecipient {
     TestToken token = TestToken(tokenAddress);
     token.mint(_msgSender(), value);
   }
-
-  // function transferToken(
-  //   address tokenAddress,
-  //   address destinationAddress,
-  //   uint256 value
-  // ) public {
-  //   ERC20Permit token = ERC20Permit(tokenAddress);
-  //   require(token.transferFrom(_msgSender(), destinationAddress, value), 'Transfer failed');
-  // }
-
-  // function approveTransfer(address tokenAddress, uint256 value) public returns (bool result) {
-  //   IERC20 token = IERC20(tokenAddress);
-  //   bool result = token.approve(address(this), value);
-  //   return result;
-  // }
 
   function permitAndTransfer(
     address tokenAddress,

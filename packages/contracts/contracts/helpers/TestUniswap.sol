@@ -4,7 +4,6 @@ pragma solidity ^0.7.6;
 import '@openzeppelin/contracts/token/ERC20/IERC20.sol';
 import '../interfaces/IUniswap.sol';
 import './TestToken.sol';
-import '../FreeCoin.sol';
 
 // naive, no-calculation swapper.
 //- the exchange rate is fixed at construction
