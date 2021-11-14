@@ -1,57 +1,53 @@
 import { expect } from 'chai';
 import { ethers } from 'hardhat';
-import { MetaCoin, MetaCoin__factory } from '@typechained';
 const Web3HttpProvider = require('web3-providers-http');
-const { GsnTestEnvironment } = require('@opengsn/gsn/dist/GsnTestEnvironment');
 const { RelayProvider } = require('@opengsn/gsn');
+import * as relayRecipient from '../deployments/localhost/RelayRecipient.json';
+import * as testToken from '../deployments/localhost/TestToken.json';
+import * as paymaster from '../gsn/Paymaster.json';
 
 describe('MetaCoin', async function () {
-  let web3provider: any;
-  let etherProvider: any;
   let accountA: any;
   let accountB: any;
   let signerA: any;
   let signerB: any;
-  let metacoin: MetaCoin;
-  let metacoinFactory: MetaCoin__factory;
+  let testTokenContract: any;
+  let relayRecipientContract: any;
 
   before(async () => {
-    web3provider = new Web3HttpProvider('http://localhost:8545');
-    const forwarder = require('../build/gsn/Forwarder').address;
-    const paymaster = require('../build/gsn/Paymaster').address;
-    const config = await {
-      paymasterAddress: paymaster,
+    // setup gsn provider
+    const config = {
+      paymasterAddress: paymaster.address,
     };
-    let gsnProvider = RelayProvider.newProvider({ provider: web3provider, config });
+    let gsnProvider = RelayProvider.newProvider({ provider: new Web3HttpProvider('http://localhost:8545'), config });
     await gsnProvider.init();
 
-    accountA = new ethers.Wallet(Buffer.from('1'.repeat(64), 'hex'));
-    accountB = new ethers.Wallet(Buffer.from('2'.repeat(64), 'hex'));
+    // create dummy accounts for testing
+    accountA = new ethers.Wallet(Buffer.from('2'.repeat(64), 'hex'));
+    accountB = new ethers.Wallet(Buffer.from('1'.repeat(64), 'hex'));
     gsnProvider.addAccount(accountA.privateKey);
     gsnProvider.addAccount(accountB.privateKey);
-    etherProvider = new ethers.providers.Web3Provider(gsnProvider);
-    signerA = etherProvider.getSigner(accountA.address);
-    signerB = etherProvider.getSigner(accountB.address);
+    var provider = new ethers.providers.Web3Provider(gsnProvider);
+    signerA = provider.getSigner(accountA.address);
+    signerB = provider.getSigner(accountB.address);
 
-    metacoinFactory = (await ethers.getContractFactory('MetaCoin')) as MetaCoin__factory;
-    metacoin = await metacoinFactory.deploy(forwarder);
-    await metacoin.deployed();
+    // import contracts for testing
+    testTokenContract = new ethers.Contract(testToken.address, testToken.abi, provider);
+    relayRecipientContract = new ethers.Contract(relayRecipient.address, relayRecipient.abi, provider);
   });
 
   it('should mint correctly', async function () {
-    const mintAccountA = await metacoin.connect(signerA).mint(500);
+    const mintAccountA = await relayRecipientContract.connect(signerA).mintToken(testTokenContract.address, ethers.utils.parseEther('1.0'));
     await mintAccountA.wait();
-    expect(await metacoin.balanceOf(accountA.address)).to.equal(500);
+    expect(await testTokenContract.balanceOf(accountA.address)).to.equal(ethers.utils.parseEther('1.0'));
   });
 
-  it('should transfer coin correctly without incurring gas fee', async function () {
-    const initialBalanceA = await etherProvider.getBalance(accountA.address);
-    const initialBalanceB = await etherProvider.getBalance(accountB.address);
-    const transferTxn = await metacoin.connect(signerA).transfer(accountB.address, 200);
-    await transferTxn.wait();
-    expect(await metacoin.balanceOf(accountA.address)).to.equal(300);
-    expect(await metacoin.balanceOf(accountB.address)).to.equal(200);
-    expect(await etherProvider.getBalance(accountA.address)).to.equal(initialBalanceA);
-    expect(await etherProvider.getBalance(accountB.address)).to.equal(initialBalanceB);
-  });
+  // more test cases
+  // it('should do something... ', async function () {
+  //   some logic
+  // });
+
+  // it('should do another thing...', async function () {
+  //   some logic
+  // });
 });
