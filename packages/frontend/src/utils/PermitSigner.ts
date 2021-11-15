@@ -1,7 +1,12 @@
 import WalletStateManager from "../utils/WalletStateManager";
 import { ethers } from "ethers";
 import { Provider } from "@ethersproject/providers";
-import { contractRelayRecipient, contractToken } from "./addresses";
+import {
+  contractRelayRecipient,
+  contractToken,
+  contractUnupgradableERC20Permit,
+  contractUnupgradableToken,
+} from "./addresses";
 
 class PermitSigner {
   private static instance: PermitSigner;
@@ -77,7 +82,7 @@ class PermitSigner {
         name: "Unupgradable Token",
         version: "1",
         chainId: 1337,
-        verifyingContract: contractToken.address,
+        verifyingContract: contractUnupgradableERC20Permit.address,
       },
       message: message,
     });

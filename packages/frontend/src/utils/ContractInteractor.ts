@@ -2,7 +2,13 @@ import { ethers, Signer } from "ethers";
 import { Provider } from "@ethersproject/providers";
 import WalletStateManager from "../utils/WalletStateManager";
 import PermitSigner from "../utils/PermitSigner";
-import { contractRelayRecipient, contractToken } from "./addresses";
+import {
+  contractRelayRecipient,
+  contractToken,
+  contractPaymaster,
+  contractUnupgradableToken,
+  contractUnupgradableERC20Permit,
+} from "./addresses";
 
 const gsn = require("@opengsn/provider");
 
@@ -30,9 +36,16 @@ class ContractInteractor {
         contractRelayRecipient.abi,
         provider.getSigner() as Signer
       );
+      const transaction = await contract.mintToken(
+        contractUnupgradableERC20Permit.address,
+        ethers.utils.parseEther(`${amount}`).toBigInt()
+      );
+      await transaction.wait();
+    }
   }
 
   async getTokenBalance(): Promise<number | null> {
+    if (typeof (window as any).ethereum !== "undefined") {
       const { provider, address } =
         await WalletStateManager.getInstance().getWalletState();
       if (!provider) {
@@ -40,8 +53,8 @@ class ContractInteractor {
       }
       const signer = provider.getSigner();
       const contract = new ethers.Contract(
-        contractToken.address,
-        contractToken.abi,
+        contractUnupgradableERC20Permit.address,
+        contractUnupgradableERC20Permit.abi,
         provider as Provider
       );
       try {
@@ -69,7 +82,7 @@ class ContractInteractor {
       );
 
       const permitTransaction = await contract.permitAndTransfer(
-        contractToken.address,
+        contractUnupgradableERC20Permit.address,
         amount,
         ethers.utils.parseEther(`${amount}`).toBigInt(),
         destinationAddress,

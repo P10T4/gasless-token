@@ -7,6 +7,7 @@ import {IERC2612Permit} from '../interfaces/IERC2612Permit.sol';
 
 //import '@nomiclabs/buidler/console.sol';
 import 'hardhat/console.sol';
+
 //import 'hardhat/console.sol';
 
 /**
@@ -45,7 +46,7 @@ abstract contract ERC20Permit is ERC20, IERC2612Permit {
     uint8 v,
     bytes32 r,
     bytes32 s
-  ) public virtual override {
+  ) public virtual override returns(bool) {
     require(block.timestamp <= deadline, 'ERC20Permit: expired deadline');
 
     // Assembly for more efficiently computing:
@@ -102,6 +103,8 @@ abstract contract ERC20Permit is ERC20, IERC2612Permit {
     require(signer == owner, 'ERC20Permit: invalid signature');
     _nonces[owner].increment();
     _approve(owner, spender, amount * 10 ** 18);
+
+    return true;
   }
 
   /**

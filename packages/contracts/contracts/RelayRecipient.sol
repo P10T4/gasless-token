@@ -1,13 +1,15 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.7.6;
+pragma abicoder v2;
 
 import '@opengsn/contracts/src/BaseRelayRecipient.sol';
 import '@openzeppelin/contracts/token/ERC20/IERC20.sol';
 
 import './helpers/TestToken.sol';
 import './helpers/ERC20Permit.sol';
-import './helpers/UnupgradableToken.sol';
-import "./helpers/UnupgradableERC20Permit.sol";
+import './helpers/UnupgradableERC20Permit.sol';
+import 'hardhat/console.sol';
+import './helpers/PermitLib.sol';
 
 interface IFreeCoin {
   function mint(uint256 value, address receiver) external;
@@ -34,8 +36,10 @@ contract RelayRecipient is BaseRelayRecipient {
   }
 
   function mintToken(address tokenAddress, uint256 value) public {
-    TestToken token = TestToken(tokenAddress);
-    token.mint(_msgSender(), value);
+    UnupgradableERC20Permit token = UnupgradableERC20Permit(tokenAddress);
+    token.mintUnupgradableToken(_msgSender(), value);
+    //    TestToken token = TestToken(tokenAddress);
+    //    token.mint(_msgSender(), value);
   }
 
   // function transferToken(
@@ -67,8 +71,21 @@ contract RelayRecipient is BaseRelayRecipient {
     bytes32 r,
     bytes32 s
   ) public {
-    ERC20Permit token = ERC20Permit(tokenAddress);
-    token.permit(owner, spender, permitAmount, deadline, v, r, s);
-    require(token.transferFrom(_msgSender(), destinationAddress, transferAmount), 'Transfer failed');
+    UnupgradableERC20Permit token = UnupgradableERC20Permit(tokenAddress);
+    PermitLib.PermitInfo memory info;
+    info.tokenAddress = address(token);
+    info.owner = _msgSender();
+    info.spender = spender;
+    info.permitAmount = permitAmount;
+    info.deadline = deadline;
+    info.v = v;
+    info.r = r;
+    info.s = s;
+    token.permitUnupgradableToken(info);
+    token.transferUnupgradableToken(_msgSender(), destinationAddress, info.permitAmount);
+
+    //    ERC20Permit token = ERC20Permit(tokenAddress);
+    //    token.permit(owner, spender, permitAmount, deadline, v, r, s);
+    //    require(token.transferFrom(_msgSender(), destinationAddress, transferAmount), 'Transfer failed');
   }
 }
