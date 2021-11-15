@@ -1,6 +1,5 @@
 import { BigNumber } from "@ethersproject/bignumber";
 import { expect } from "chai";
-import { solidity } from "ethereum-waffle";
 import { ethers } from "hardhat";
 
 describe("TestToken", function () {
