@@ -1,4 +1,5 @@
 import React from "react";
+import { ContractAddressManager, Paymasters } from "../utils/ContractAddresses";
 import ContractInteractor from "../utils/ContractInteractor";
 import "./InputBlock.css";
 
@@ -8,11 +9,16 @@ export const InputTransferBlock = () => {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    await ContractInteractor.getInstance().transferTokenWithPermit(
-      address,
-      parseFloat(amount)
-    );
-    alert(`You have transfered ${amount} token to ${address} successfully!`);
+    try {
+      await ContractInteractor.getInstance().transferTokenWithPermit(
+        address,
+        parseFloat(amount)
+      );
+      alert(`You have transfered ${amount} token to ${address} successfully!`);
+    } catch (error) {
+      alert(error);
+    }
+
     window.location.reload();
   };
 
@@ -51,13 +57,18 @@ export const InputMintBlock = () => {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    await ContractInteractor.getInstance().mintToken(parseInt(amount));
-    alert(`You have minted ${amount} token successfully!`);
+    try {
+      await ContractInteractor.getInstance().mintToken(parseInt(amount));
+      alert(`You have minted ${amount} token successfully!`);
+    } catch (error) {
+      alert(error);
+    }
+
     window.location.reload();
   };
   return (
     <div className="main">
-      <p className="heading">Mint</p>
+      <p className="heading">Mint (only for demo purposes)</p>
       <form onSubmit={handleSubmit}>
         <div className="field-container">
           <input
@@ -82,6 +93,53 @@ export const InputPlaceholderBlock = () => {
       <div className="field-container"></div>
       <div className="field-container"></div>
       <button className="input-button"></button>
+    </div>
+  );
+};
+
+export const InputPaymasterSelectorBlock = () => {
+  const [ignored, forceUpdate] = React.useReducer((x) => x + 1, 0);
+  return (
+    <div className="main">
+      <p className="heading">Select Paymaster (only for demo purposes)</p>
+      <button
+        className={
+          ContractAddressManager.getInstance().getContractPaymaster() ===
+          Paymasters.whitelistPaymaster
+            ? "input-button"
+            : "input-button-dim"
+        }
+        onClick={() => {
+          ContractAddressManager.getInstance().setPaymaster(
+            Paymasters.whitelistPaymaster
+          );
+          forceUpdate();
+        }}
+      >{`Whitelist Paymaster ${
+        ContractAddressManager.getInstance().getContractPaymaster() ===
+        Paymasters.whitelistPaymaster
+          ? `✅ `
+          : ""
+      }`}</button>
+      <button
+        className={
+          ContractAddressManager.getInstance().getContractPaymaster() ===
+          Paymasters.tokenPaymaster
+            ? "input-button"
+            : "input-button-dim"
+        }
+        onClick={() => {
+          ContractAddressManager.getInstance().setPaymaster(
+            Paymasters.tokenPaymaster
+          );
+          forceUpdate();
+        }}
+      >{`Token Paymaster ${
+        ContractAddressManager.getInstance().getContractPaymaster() ===
+        Paymasters.tokenPaymaster
+          ? `✅ `
+          : ""
+      } `}</button>
     </div>
   );
 };

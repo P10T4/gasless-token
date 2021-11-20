@@ -4,6 +4,7 @@ import {
   InputMintBlock,
   InputTransferBlock,
   InputPlaceholderBlock,
+  InputPaymasterSelectorBlock,
 } from "./InputBlock";
 import "./Home.css";
 
@@ -11,6 +12,7 @@ export enum TabValue {
   transfer,
   mint,
   walletNotFound,
+  selectPaymaster,
 }
 
 export const TabContext = React.createContext({
@@ -41,6 +43,8 @@ const HomeComponents = () => {
           <InputTransferBlock />
         ) : tabContext.tabValue === TabValue.mint ? (
           <InputMintBlock />
+        ) : tabContext.tabValue === TabValue.selectPaymaster ? (
+          <InputPaymasterSelectorBlock />
         ) : (
           <InputPlaceholderBlock />
         )}

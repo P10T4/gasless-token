@@ -6,7 +6,7 @@
   },
   "scripts": {
     "setup": "yarn install && npx lerna bootstrap --npm-client=yarn",
-    "start:app": "lerna run start:app",
+    "start:app": "lerna run start:app --stream",
     "start:node": "cd packages/contracts && yarn start:node"
   }
 }

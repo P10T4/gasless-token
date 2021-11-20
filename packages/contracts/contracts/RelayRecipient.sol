@@ -29,8 +29,6 @@ contract RelayRecipient is BaseRelayRecipient {
     address owner,
     address spender,
     uint256 deadline,
-    uint256 nonce,
-    bool allowed,
     uint8 v,
     bytes32 r,
     bytes32 s

@@ -26,10 +26,6 @@ describe('Test TokenPaymaster', async function () {
     provider = new ethers.providers.Web3Provider(new Web3HttpProvider('http://localhost:8545'));
     tokenPaymasterContract = new ethers.Contract(tokenPaymaster.address, tokenPaymaster.abi, provider);
     var accountWithEthSigner = provider.getSigner(accountWithEth.address);
-    var setupPaymaster = await tokenPaymasterContract.connect(accountWithEthSigner).setRelayHub(relayHub.address);
-    await setupPaymaster.wait();
-    setupPaymaster = await tokenPaymasterContract.connect(accountWithEthSigner).setTrustedForwarder(forwarder.address);
-    await setupPaymaster.wait();
 
     // fund token paymaster
     const fundTokenPaymaster = await accountWithEthSigner.sendTransaction({

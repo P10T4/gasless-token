@@ -32,7 +32,7 @@ contract TokenPaymaster is BasePaymaster {
 
   uint256 public gasUsedByPost;
 
-  constructor(IUniswap[] memory _uniswaps) public {
+  constructor(IUniswap[] memory _uniswaps, IForwarder forwarder, IRelayHub relayHub) public {
     uniswaps = _uniswaps;
 
     for (uint256 i = 0; i < _uniswaps.length; i++) {
@@ -40,6 +40,9 @@ contract TokenPaymaster is BasePaymaster {
       tokens.push(IERC20(_uniswaps[i].tokenAddress()));
       tokens[i].approve(address(_uniswaps[i]), uint256(-1));
     }
+
+    setRelayHub(relayHub);
+    setTrustedForwarder(forwarder);
   }
 
   /**

@@ -5,7 +5,11 @@ import { TabContext, TabValue } from "./Home";
 import WalletStateManager from "../utils/WalletStateManager";
 import ContractInteractor from "../utils/ContractInteractor";
 import { CopyToClipboard } from "react-copy-to-clipboard";
-import { contractToken } from "../utils/addresses";
+import {
+  ContractAddressManager,
+  contractToken,
+  Paymasters,
+} from "../utils/ContractAddresses";
 
 const AppBar = () => {
   const tabContext = React.useContext(TabContext);
@@ -67,6 +71,19 @@ const AppBar = () => {
           onClick={() => tabContext.setTabValue(TabValue.mint)}
         >
           Mint
+        </button>
+        <button
+          className={
+            tabContext.tabValue === TabValue.selectPaymaster
+              ? "tabbar-button-selected"
+              : "tabbar-button"
+          }
+          onClick={() => tabContext.setTabValue(TabValue.selectPaymaster)}
+        >
+          {ContractAddressManager.getInstance().getContractPaymaster() ===
+          Paymasters.tokenPaymaster
+            ? "Using Token Paymaster"
+            : "Using Whitelist Paymaster"}
         </button>
       </div>
       <Spacer />

@@ -47,6 +47,26 @@
   border-color: gray;
 }
 
+.input-button-dim {
+  height: 60px;
+  width: 100%;
+  align-self: center;
+  margin-right: 20px;
+  border-radius: 18px;
+  color: #555555;
+  background-color: #222222;
+  border-color: transparent;
+  border-style: solid;
+  font-weight: 500;
+  font-size: large;
+  padding-inline: 12px;
+  margin-top: 8px;
+}
+
+.input-button-dim:hover {
+  border-color: gray;
+}
+
 .input-field {
   background-color: transparent;
   width: 90%;
