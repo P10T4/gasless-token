@@ -1,7 +1,7 @@
 import WalletStateManager from "../utils/WalletStateManager";
 import { ethers } from "ethers";
 import { Provider } from "@ethersproject/providers";
-import { contractRelayRecipient, contractToken } from "./addresses";
+import { contractRelayRecipient, contractToken } from "./ContractAddresses";
 
 class PermitSigner {
   private static instance: PermitSigner;
@@ -104,14 +104,18 @@ class PermitSigner {
     };
   }
 
-  async setupValues(value: number) {
+  async setupValues(
+    value: number,
+    spenderAddress: string,
+    nonceIncrement: number
+  ) {
     const { provider, address } =
       await WalletStateManager.getInstance().getWalletState();
     this.owner = address;
-    this.spender = contractRelayRecipient.address;
+    this.spender = spenderAddress;
     this.value = value;
     this.deadline = Date.now() + 120;
-    this.nonce = await this.getNonce();
+    this.nonce = (await this.getNonce()) + nonceIncrement;
   }
 
   async getNonce() {
@@ -131,9 +135,13 @@ class PermitSigner {
     return data.toNumber();
   }
 
-  async signTransferPermit(value: number) {
+  async signTransferPermit(
+    value: number,
+    spenderAddress: string,
+    nonceIncrement: number
+  ) {
     console.log("signTransferPermit - value ", value);
-    await this.setupValues(value);
+    await this.setupValues(value, spenderAddress, nonceIncrement);
     const metaProvider = new ethers.providers.Web3Provider(
       (window as any).ethereum
     );

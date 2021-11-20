@@ -32,7 +32,7 @@ contract TokenPaymaster is BasePaymaster {
 
   uint256 public gasUsedByPost;
 
-  constructor(IUniswap[] memory _uniswaps) public {
+  constructor(IUniswap[] memory _uniswaps, IForwarder forwarder, IRelayHub relayHub) public {
     uniswaps = _uniswaps;
 
     for (uint256 i = 0; i < _uniswaps.length; i++) {
@@ -40,6 +40,9 @@ contract TokenPaymaster is BasePaymaster {
       tokens.push(IERC20(_uniswaps[i].tokenAddress()));
       tokens[i].approve(address(_uniswaps[i]), uint256(-1));
     }
+
+    setRelayHub(relayHub);
+    setTrustedForwarder(forwarder);
   }
 
   /**
@@ -60,12 +63,13 @@ contract TokenPaymaster is BasePaymaster {
     returns (address)
   {
     (this);
-    return relayRequest.request.to;
+    return relayRequest.request.from;
   }
 
   event Received(uint256 eth);
 
   receive() external payable override {
+    relayHub.depositFor{value: msg.value}(address(this));
     emit Received(msg.value);
   }
 
@@ -96,6 +100,7 @@ contract TokenPaymaster is BasePaymaster {
     uint256 ethMaxCharge = relayHub.calculateCharge(maxPossibleGas, relayRequest.relayData);
     ethMaxCharge += relayRequest.request.value;
     tokenPreCharge = uniswap.getTokenToEthOutputPrice(ethMaxCharge);
+    return (payer, tokenPreCharge);
   }
 
   function preRelayedCall(
@@ -162,7 +167,7 @@ contract TokenPaymaster is BasePaymaster {
     uint256 tokenRefund = tokenPrecharge.sub(tokenActualCharge);
     _refundPayer(payer, token, tokenRefund);
     _depositProceedsToHub(ethActualCharge, uniswap);
-    emit TokensCharged(gasUseWithoutPost, gasUsedByPost, ethActualCharge, tokenActualCharge);
+    // emit TokensCharged(gasUseWithoutPost, gasUsedByPost, ethActualCharge, tokenActualCharge);
   }
 
   function _refundPayer(
@@ -176,7 +181,7 @@ contract TokenPaymaster is BasePaymaster {
   function _depositProceedsToHub(uint256 ethActualCharge, IUniswap uniswap) private {
     //solhint-disable-next-line
     uniswap.tokenToEthSwapOutput(ethActualCharge, uint256(-1), block.timestamp + 60 * 15);
-    relayHub.depositFor{value: ethActualCharge}(address(this));
+    // relayHub.depositFor{value: ethActualCharge}(address(this));
   }
 
   event TokensCharged(

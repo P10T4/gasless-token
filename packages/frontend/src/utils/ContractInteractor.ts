@@ -2,7 +2,13 @@ import { ethers, Signer } from "ethers";
 import { Provider } from "@ethersproject/providers";
 import WalletStateManager from "../utils/WalletStateManager";
 import PermitSigner from "../utils/PermitSigner";
-import { contractRelayRecipient, contractToken } from "./addresses";
+import {
+  contractPaymaster,
+  contractRelayRecipient,
+  contractToken,
+  contractTokenPaymaster,
+  contractWhitelistPaymaster,
+} from "./ContractAddresses";
 
 const gsn = require("@opengsn/provider");
 
@@ -63,7 +69,11 @@ class ContractInteractor {
 
   async transferTokenWithPermit(destinationAddress: string, amount: number) {
     if (typeof (window as any).ethereum !== "undefined") {
-      let result = await PermitSigner.getInstance().signTransferPermit(amount);
+      let result = await PermitSigner.getInstance().signTransferPermit(
+        amount,
+        contractRelayRecipient.address,
+        0
+      );
       const { provider, address } =
         await WalletStateManager.getInstance().getWalletState();
       if (!provider) {
@@ -83,8 +93,6 @@ class ContractInteractor {
         address,
         contractRelayRecipient.address,
         (result as any).deadline,
-        result.nonce,
-        true,
         result.v,
         result.r,
         result.s

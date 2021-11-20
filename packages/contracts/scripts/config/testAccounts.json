@@ -1,0 +1,17 @@
+[
+  {
+    "name": "Test Account 1",
+    "address": "0xF4E8d4160BB5420D9D9fF1ed42044E660a2b2F32",
+    "privateKey": "0x2c6036688de3383aac61e305b3bf91bc567f508ce01db108d17e62ca364a2488"
+  },
+  {
+    "name": "Test Account 2",
+    "address": "0x3e294ddA81C8225C70BfFAbc4cf23d900768C636",
+    "privateKey": "0x6d61bdbd9c2cd61f2be4b8aaf3cb930cb317028389f8f7f7f454ccc98d36d4f5"
+  },
+  {
+    "name": "Test Account 3",
+    "address": "0x9f02BFA6C75a8eA77000210F061a6aed15cdF76e",
+    "privateKey": "0x21f33ccbc687ce720efee931d205f8f7b77d40c6cd2863c1cc61fc0a472c4cc9"
+  }
+]
