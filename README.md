@@ -50,9 +50,9 @@ In the [Paymaster Section](#Paymasters), we explained that we have implemented t
 
 <br />
 
-## Written Demo
+## Project Demo
 
-Here is our Dapp interface. To read the written demo, refer to `DEMO.md` [here](DEMO.md)
+Here is our Dapp interface. To read the written demo, refer to `DEMO.md` [here](DEMO.md). You can also watch our 10min video demo [here](https://www.youtube.com/watch?v=hOhrLGML6Q4)
 
 ![image](https://user-images.githubusercontent.com/48687942/142754720-6d45e678-8fbb-4031-98ad-27d0a5c59b49.png)
 
