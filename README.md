@@ -52,7 +52,7 @@ In the [Paymaster Section](#Paymasters), we explained that we have implemented t
 
 ## Project Demo
 
-Here is our Dapp interface. To read the written demo, refer to `DEMO.md` [here](DEMO.md). You can also watch our 10min video demo [here](https://www.youtube.com/watch?v=hOhrLGML6Q4)
+Here is our dApp interface. To read the written demo, refer to `DEMO.md` [here](DEMO.md). You can also watch our 10min video demo [here](https://www.youtube.com/watch?v=hOhrLGML6Q4)
 
 ![image](https://user-images.githubusercontent.com/48687942/142754720-6d45e678-8fbb-4031-98ad-27d0a5c59b49.png)
 
@@ -76,7 +76,7 @@ In our project, we have implemented the following contracts:
 
 ### Relay Recipient
 
-Normally in a Dapp, the user in frontend (msg.sender) invokes the the function in the contracts directly, incurring gas fees on the msg sender.
+Normally in a dApp, the user in frontend (msg.sender) invokes the the function in the contracts directly, incurring gas fees on the msg sender.
 
 <br />
 
@@ -92,7 +92,7 @@ With the integration of OpenGSN, instead of letting msg sender invoking contract
 
 (note that this diagram is simplified to convey the main idea in this section, actual interactions involve other contracts such as RelayHub, Forwarder, Paymaster, etc)
 
-Hence, our project needs to implement the Relay Recipient to implement the various logic that supports our Dapp. The main logic that we needed to support is to faciliate gasless token transfer between users.
+Hence, our project needs to implement the Relay Recipient to implement the various logic that supports our dApp. The main logic that we needed to support is to faciliate gasless token transfer between users.
 
 To facilitate the token transfer logic, one naive function that we could implement in the relay recipient contract, is something like this:
 
