@@ -106,7 +106,7 @@ function transfer(
     require(token.transferFrom(_msgSender(), destinationAddress, transferAmount), 'Transfer failed');
 }
 
-// in Relay Recipient, since it is a relayed call, msg.sender will be the Forwarder contract instead of the user. 
+// in Relay Recipient, since it is a relayed call, msg.sender will be the Forwarder contract instead of the user.
 // To retrieve the actual frontend user, we need to use _msgSender() to access the original msg sender
 ```
 
@@ -161,3 +161,54 @@ Besides compensating relayers, another responsibility of paymasters is to decide
 
   - To demonstrate this approach, we have implemented the [`TokenPaymaster.sol`](packages/contracts/contracts/TokenPaymaster.sol) contract
   - To simulate the exchange of ERC20 token to Ether using a DEX, we have also implemented a helper contract [`TestUniswap.sol`](packages/contracts/contracts/helpers/TestUniswap.sol) to represent the swapping of Test Token-Ether pair. For demo purposes, we have fixed the exchange rate of Test Token to Ether to be 1 : 1.
+
+<br /><br />
+
+#### Current limitation of our TokenPaymaster implementation
+
+As explained in previous section, our TokenPaymaster will need to deduct token balance from the user. However, this would mean that the user must `approve` some allowance to the TokenPaymaster contract so that the TokenPaymaster can deduct the token from the user. This will again introduce the same problem of user having to possess Ether to pay for gas fee for contract function invocation.
+
+We have tried some ways to attempt to resolve this issue, but unfortunately we could not find an elegant solution. The following is our attempted solution to solve this problem:
+
+<br />
+
+##### Our Attempt: Use of the permit function just like previously done in Relay Recipient
+
+In the current implementation, the frontend user will produce one signature to permit the `RelayRecipient` to spend the user's token. We can extend on the same function, by asking user to produce two signatures in the frontend, where one signature permits the `RelayRecipient`, while the other signature permits the `TokenPaymaster` contract. With this approach, here is what the function could look like in our `RelayRecipient` contract:
+
+```solidity
+function permitAndTransfer(
+    address tokenAddress,
+    uint256 permitAmount,
+    uint256 transferAmount,
+    address destinationAddress,
+    address owner,
+    address spender1,
+    uint256 deadline1,
+    uint8 v1,
+    bytes32 r1,
+    bytes32 s1,
+    address spender2,
+    uint256 deadline2,
+    uint8 v2,
+    bytes32 r2,
+    bytes32 s2,
+) public {
+  ERC20Permit token = ERC20Permit(tokenAddress);
+
+  // permit RelayRecipient
+  token.permit(owner, spender1, permitAmount, deadline1, v1, r1, s1);
+
+  // permit TokenPaymaster
+  token.permit(owner, spender2, permitAmount, deadline2, v2, r2, s2);
+
+  require(
+    token.transferFrom(_msgSender(), destinationAddress, transferAmount),
+    'Transfer failed'
+  );
+}
+```
+
+With this approach, we can permit both the `RelayRecipient` contract as well as the `TokenPaymaster` contract, all in one single transaction.
+
+However, while trying to implement this function, we have encountered the [stack too deep](https://ethereum.stackexchange.com/questions/19587/how-to-fix-stack-too-deep-error) error, seems like its due to having too many function parameters in this case. We have tried some ways but we couldn't manage to resolve this issue in time. If we were to break up this function into multiple parts, both the `permit` calls can no longer be done in a single transaction, and will incur gas fee on the user in Ether.
