@@ -13,7 +13,11 @@ contract TestUniswap is IUniswap {
   uint256 public rateMult;
   uint256 public rateDiv;
 
-  constructor(uint256 _rateMult, uint256 _rateDiv, address tokenAddress) public payable {
+  constructor(
+    uint256 _rateMult,
+    uint256 _rateDiv,
+    address tokenAddress
+  ) public payable {
     //    token = new FreeCoin(1377);
     token = IERC20(tokenAddress);
     // token = new TestToken(1000);

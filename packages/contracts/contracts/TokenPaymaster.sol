@@ -28,15 +28,19 @@ contract TokenPaymaster is BasePaymaster {
   IUniswap[] public uniswaps;
   IERC20[] public tokens;
 
-  mapping(IUniswap => bool) private supportedUniswaps;
+  mapping(IUniswap => bool) private _supportedUniswaps;
 
   uint256 public gasUsedByPost;
 
-  constructor(IUniswap[] memory _uniswaps, IForwarder forwarder, IRelayHub relayHub) public {
+  constructor(
+    IUniswap[] memory _uniswaps,
+    IForwarder forwarder,
+    IRelayHub relayHub
+  ) public {
     uniswaps = _uniswaps;
 
     for (uint256 i = 0; i < _uniswaps.length; i++) {
-      supportedUniswaps[_uniswaps[i]] = true;
+      _supportedUniswaps[_uniswaps[i]] = true;
       tokens.push(IERC20(_uniswaps[i].tokenAddress()));
       tokens[i].approve(address(_uniswaps[i]), uint256(-1));
     }
@@ -85,7 +89,7 @@ contract TokenPaymaster is BasePaymaster {
 
     require(paymasterData.length == 32, 'invalid uniswap address in paymasterData');
     uniswap = abi.decode(paymasterData, (IUniswap));
-    require(supportedUniswaps[uniswap], 'unsupported token uniswap');
+    require(_supportedUniswaps[uniswap], 'unsupported token uniswap');
     token = IERC20(uniswap.tokenAddress());
   }
 

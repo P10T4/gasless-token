@@ -1,10 +1,7 @@
-// var tokenPaymaster = require("../contractdeployments/localhost/TokenPaymaster.json");
-// var whitelistPaymaster = require("../contractdeployments/localhost/WhitelistPaymaster.json");
-
-export var contractToken = require("../contractdeployments/localhost/TestToken.json");
-export var contractRelayRecipient = require("../contractdeployments/localhost/RelayRecipient.json");
-export var contractTokenPaymaster = require("../contractdeployments/localhost/TokenPaymaster.json");
-export var contractWhitelistPaymaster = require("../contractdeployments/localhost/WhitelistPaymaster.json");
+export var contractToken = require('../contractdeployments/localhost/TestToken.json');
+export var contractRelayRecipient = require('../contractdeployments/localhost/RelayRecipient.json');
+export var contractTokenPaymaster = require('../contractdeployments/localhost/TokenPaymaster.json');
+export var contractWhitelistPaymaster = require('../contractdeployments/localhost/WhitelistPaymaster.json');
 export var contractPaymaster = contractWhitelistPaymaster;
 
 export class Paymasters {

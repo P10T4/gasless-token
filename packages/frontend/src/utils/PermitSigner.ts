@@ -1,12 +1,12 @@
-import WalletStateManager from "../utils/WalletStateManager";
-import { ethers } from "ethers";
-import { Provider } from "@ethersproject/providers";
-import { contractRelayRecipient, contractToken } from "./ContractAddresses";
+import WalletStateManager from '../utils/WalletStateManager';
+import { ethers } from 'ethers';
+import { Provider } from '@ethersproject/providers';
+import { contractRelayRecipient, contractToken } from './ContractAddresses';
 
 class PermitSigner {
   private static instance: PermitSigner;
-  owner = "";
-  spender = "";
+  owner = '';
+  spender = '';
   value: number = 0;
   deadline = Date.now() + 120;
   nonce = 1;
@@ -33,49 +33,49 @@ class PermitSigner {
       types: {
         EIP712Domain: [
           {
-            name: "name",
-            type: "string",
+            name: 'name',
+            type: 'string',
           },
           {
-            name: "version",
-            type: "string",
+            name: 'version',
+            type: 'string',
           },
           {
-            name: "chainId",
-            type: "uint256",
+            name: 'chainId',
+            type: 'uint256',
           },
           {
-            name: "verifyingContract",
-            type: "address",
+            name: 'verifyingContract',
+            type: 'address',
           },
         ],
         Permit: [
           {
-            name: "owner",
-            type: "address",
+            name: 'owner',
+            type: 'address',
           },
           {
-            name: "spender",
-            type: "address",
+            name: 'spender',
+            type: 'address',
           },
           {
-            name: "value",
-            type: "uint256",
+            name: 'value',
+            type: 'uint256',
           },
           {
-            name: "nonce",
-            type: "uint256",
+            name: 'nonce',
+            type: 'uint256',
           },
           {
-            name: "deadline",
-            type: "uint256",
+            name: 'deadline',
+            type: 'uint256',
           },
         ],
       },
-      primaryType: "Permit",
+      primaryType: 'Permit',
       domain: {
-        name: "Test Token",
-        version: "1",
+        name: 'Test Token',
+        version: '1',
         chainId: 1337,
         verifyingContract: contractToken.address,
       },
@@ -89,14 +89,11 @@ class PermitSigner {
   }
 
   async signData(web3provider: any, owner: any, typeData: any) {
-    var result = await web3provider.send("eth_signTypedData_v3", [
-      owner,
-      typeData,
-    ]);
-    console.log("result", result);
+    var result = await web3provider.send('eth_signTypedData_v3', [owner, typeData]);
+    console.log('result', result);
     const r = result.slice(0, 66);
-    const s = "0x" + result.slice(66, 130);
-    const v = Number("0x" + result.slice(130, 132));
+    const s = '0x' + result.slice(66, 130);
+    const v = Number('0x' + result.slice(130, 132));
     return {
       v,
       r,
@@ -104,13 +101,8 @@ class PermitSigner {
     };
   }
 
-  async setupValues(
-    value: number,
-    spenderAddress: string,
-    nonceIncrement: number
-  ) {
-    const { provider, address } =
-      await WalletStateManager.getInstance().getWalletState();
+  async setupValues(value: number, spenderAddress: string, nonceIncrement: number) {
+    const { provider, address } = await WalletStateManager.getInstance().getWalletState();
     this.owner = address;
     this.spender = spenderAddress;
     this.value = value;
@@ -119,38 +111,23 @@ class PermitSigner {
   }
 
   async getNonce() {
-    const { provider, address } =
-      await WalletStateManager.getInstance().getWalletState();
+    const { provider, address } = await WalletStateManager.getInstance().getWalletState();
     if (!provider) {
       return 0;
     }
     const signer = provider.getSigner();
-    const contract = new ethers.Contract(
-      contractToken.address,
-      contractToken.abi,
-      provider as Provider
-    );
+    const contract = new ethers.Contract(contractToken.address, contractToken.abi, provider as Provider);
     const data = await contract.nonces(address);
     console.log(data.toNumber());
     return data.toNumber();
   }
 
-  async signTransferPermit(
-    value: number,
-    spenderAddress: string,
-    nonceIncrement: number
-  ) {
-    console.log("signTransferPermit - value ", value);
+  async signTransferPermit(value: number, spenderAddress: string, nonceIncrement: number) {
+    console.log('signTransferPermit - value ', value);
     await this.setupValues(value, spenderAddress, nonceIncrement);
-    const metaProvider = new ethers.providers.Web3Provider(
-      (window as any).ethereum
-    );
+    const metaProvider = new ethers.providers.Web3Provider((window as any).ethereum);
     const messageData = this.createPermitMessageData();
-    const sig = await this.signData(
-      metaProvider,
-      this.owner,
-      messageData.typedData
-    );
+    const sig = await this.signData(metaProvider, this.owner, messageData.typedData);
     return Object.assign({}, sig, messageData.message);
   }
 }
