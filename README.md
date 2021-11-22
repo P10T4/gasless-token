@@ -105,6 +105,9 @@ function transfer(
     ERC20 token = ERC20(tokenAddress);
     require(token.transferFrom(_msgSender(), destinationAddress, transferAmount), 'Transfer failed');
 }
+
+// in Relay Recipient, since it is a relayed call, msg.sender will be the Forwarder contract instead of the user. 
+// To retrieve the actual frontend user, we need to use _msgSender() to access the original msg sender
 ```
 
 However, this will not work for us because the `transferFrom` call will only work provided that the `_msgSender()` has previously approved some allowance to the relay recipient contract. This means that the user has to manually call the `approve` function in the ERC20 token contract, and that function invocation will incur gas fees, which then violates the primary aim of this project in the first place.
