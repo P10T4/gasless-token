@@ -46,13 +46,13 @@ Finally, in your metamask, setup the 3 test accounts that we have predefined for
 
 ### Reason for these predefined accounts
 
-In the [Paymaster Section](#Paymasters), we explained that we have implemented two different types of paymasters. The Whitelist Paymaster only accepts transactions from accounts that have been configured into the whitelisted list. For demo purposes, we have already preconfigured the whitelisting process, and these 3 accounts mentioned above have been whitelisted. To see the configuration logic, refer to `packages/contracts/scripts/config/config.ts`. (This config script was ran automatically when we run `yarn start:app` mentioned above)
+In the [Paymaster Section](#Paymasters), we explained that we have implemented two different types of paymasters. The Whitelist Paymaster only accepts transactions from accounts that have been configured into the whitelisted list. For demo purposes, we have already preconfigured the whitelisting process, and these three accounts mentioned above have been whitelisted. To see the configuration logic, refer to [`config.ts`](packages/contracts/scripts/config/config.ts). (This config script was ran automatically when we run `yarn start:app` mentioned above)
 
 <br />
 
 ## Project Demo
 
-Here is our dApp interface. To read the written demo, refer to `DEMO.md` [here](DEMO.md). You can also watch our 10min video demo [here](https://www.youtube.com/watch?v=hOhrLGML6Q4)
+Here is our dApp interface. To read the written demo, refer to [`DEMO.md`](DEMO.md). You can also watch our 10min video demo [here](https://www.youtube.com/watch?v=hOhrLGML6Q4)
 
 ![image](https://user-images.githubusercontent.com/48687942/142754720-6d45e678-8fbb-4031-98ad-27d0a5c59b49.png)
 
@@ -76,7 +76,7 @@ In our project, we have implemented the following contracts:
 
 ### Relay Recipient
 
-Normally in a dApp, the user in the frontend (`msg.sender`) invokes the functions in the contracts directly, incurring gas fees on the msg sender.
+Normally in a dApp, the user in the frontend (`msg.sender`) invokes the functions in the contracts directly, incurring gas fees on the user.
 
 <br />
 
@@ -84,7 +84,7 @@ Normally in a dApp, the user in the frontend (`msg.sender`) invokes the function
 
 <br />
 
-With the integration of OpenGSN, instead of letting `msg.sender` invoke contract functions directly, the msg sender will instead pass that invocation call to the relayer. The relayer will invoke the contract functions on behalf of the user and consequently pay for the gas fee in Ether.
+With the integration of OpenGSN, instead of letting users invoke contract functions directly, users will instead pass that invocation call to the relayer. The relayer will invoke the contract functions on behalf of the user and consequently pay for the gas fee in Ether.
 
 <br />
 
@@ -107,9 +107,9 @@ function transfer(
 }
 ```
 
-However, this will not work for us because the `transferFrom` call will only work provided that the `_msgSender()` has previously approved some allowance to the relay recipient contract. This means that the msg sender has to manually call the `approve` function in the ERC20 token contract, and that function invocation will incur gas fees, which then violates the primary aim of this project in the first place.
+However, this will not work for us because the `transferFrom` call will only work provided that the `_msgSender()` has previously approved some allowance to the relay recipient contract. This means that the user has to manually call the `approve` function in the ERC20 token contract, and that function invocation will incur gas fees, which then violates the primary aim of this project in the first place.
 
-To solve this problem, we needed a way to approve some allowance to the contract without incurring gas fee to the user, and one way that we manage to achieve this is through the use of `permit` function ([EIP2612](https://eips.ethereum.org/EIPS/eip-2612))
+To solve this problem, we needed a way to approve some allowance to the contract without incurring gas fee to the user, and one way that we manage to achieve this is through the use of the `permit` function. ([EIP2612](https://eips.ethereum.org/EIPS/eip-2612))
 
 <br />
 
@@ -119,7 +119,7 @@ The EIP2612 was initiated by Dai and Uniswap and was first implemented in the Da
 
 In our project, we have defined the permit logic inside the [`ERC20Permit.sol`](packages/contracts/contracts/helpers/ERC20Permit.sol). To demonstrate that any ERC20 token can directly inherit the `ERC20Permit` contract, we have created [`TestToken.sol`](packages/contracts/contracts/helpers/TestToken.sol), which is an ERC20 token that inherits the `ERC20Permit` contract.
 
-With the use of the permit function, our frontend msg sender will just produce a signature and send it to the relay recipient. The relay recipient will then use that signature to approve the allowance in the token contract, and then proceed to do `transferFrom`. Here is how the function in the Relay Recipient could look like now:
+With the use of the permit function, our frontend users will just produce a signature and send it to the relay recipient. The relay recipient will then use that signature to approve the allowance in the token contract, and then proceed to do `transferFrom`. Here is how the function in the Relay Recipient could look like now:
 
 ```solidity
 function permitAndTransfer(
@@ -140,7 +140,7 @@ function permitAndTransfer(
 }
 ```
 
-With this approach, `approve` and `transferFrom` are all done in a single transaction, without the msg sender having to possess any Ether.
+With this approach, `approve` and `transferFrom` are all done in a single transaction, without the user having to possess any Ether.
 
 <br />
 

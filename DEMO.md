@@ -6,7 +6,7 @@ Once everything is loaded, we can proceed to change to Test Account 2. We can se
 
 ## Mint some test tokens
 
-Let't mint some token for testing:
+Let's mint some tokens for testing:
 
 ![image](https://user-images.githubusercontent.com/48687942/142754732-b1447a94-eeb6-4278-8e43-cb64ae74938d.png)
 
@@ -22,7 +22,7 @@ We can verify that our balance is now 100 TOK as seen from the top right corner:
 
 ![image](https://user-images.githubusercontent.com/48687942/142754746-789a25f2-e0e0-453b-bb23-416ba6afeac0.png)
 
-You can also verify it in your metamask account
+You can also verify it in your MetaMask account
 
 ![image](https://user-images.githubusercontent.com/48687942/142754755-35a23fa5-1a14-4fa4-9ae8-4af2319bcb84.png)
 
@@ -39,11 +39,11 @@ Sign the prompt:
 ![image](https://user-images.githubusercontent.com/48687942/142754780-5ecc494c-b384-4b07-aab5-e9ee238ccb9c.png)
 ![image](https://user-images.githubusercontent.com/48687942/142754783-5dc569d2-7bd5-4d82-9f5e-4a4b4ee0c54d.png)
 
-Once transfer is done, we can see the success prompt:
+Once the transfer is done, we can see the success prompt:
 
 ![image](https://user-images.githubusercontent.com/48687942/142754788-981927b7-ba38-48d0-86a9-1695fe630747.png)
 
-We can also see that our balance has now been deducted 10 TOK, is now left with 90 TOK.
+We can also see that 10 TOK was deducted from our balance.
 
 ![image](https://user-images.githubusercontent.com/48687942/142754791-882bb509-add0-4069-9f68-29a7c1328278.png)
 
