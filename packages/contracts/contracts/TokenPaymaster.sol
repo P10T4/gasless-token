@@ -171,7 +171,6 @@ contract TokenPaymaster is BasePaymaster {
     uint256 tokenRefund = tokenPrecharge.sub(tokenActualCharge);
     _refundPayer(payer, token, tokenRefund);
     _depositProceedsToHub(ethActualCharge, uniswap);
-    // emit TokensCharged(gasUseWithoutPost, gasUsedByPost, ethActualCharge, tokenActualCharge);
   }
 
   function _refundPayer(

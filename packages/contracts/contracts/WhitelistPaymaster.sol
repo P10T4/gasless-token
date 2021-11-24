@@ -4,9 +4,11 @@ pragma experimental ABIEncoderV2;
 
 import '@opengsn/gsn/contracts/BasePaymaster.sol';
 
-///a sample paymaster that has whitelists for senders and targets.
-/// - if at least one sender is whitelisted, then ONLY whitelisted senders are allowed.
-/// - if at least one target is whitelisted, then ONLY whitelisted targets are allowed.
+/**
+ * A sample paymaster that has whitelists for senders and targets.
+ * - if at least one sender is whitelisted, then ONLY whitelisted senders are allowed.
+ * - if at least one target is whitelisted, then ONLY whitelisted targets are allowed.
+ */
 contract WhitelistPaymaster is BasePaymaster {
   bool public useSenderWhitelist;
   bool public useTargetWhitelist;

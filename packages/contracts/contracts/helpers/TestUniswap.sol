@@ -18,9 +18,7 @@ contract TestUniswap is IUniswap {
     uint256 _rateDiv,
     address tokenAddress
   ) public payable {
-    //    token = new FreeCoin(1377);
     token = IERC20(tokenAddress);
-    // token = new TestToken(1000);
     rateMult = _rateMult;
     rateDiv = _rateDiv;
     require(msg.value > 0, 'must specify liquidity');

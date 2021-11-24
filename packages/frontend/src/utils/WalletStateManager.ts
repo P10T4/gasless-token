@@ -1,6 +1,6 @@
 import { ethers } from 'ethers';
 import { Web3Provider } from '@ethersproject/providers';
-import { ContractAddressManager, contractPaymaster } from './ContractAddresses';
+import { ContractAddressManager } from './ContractAddresses';
 
 const gsn = require('@opengsn/provider');
 
@@ -34,8 +34,8 @@ class WalletStateManager {
       WalletStateManager.walletState = newState;
       return newState;
     }
-    var provider = await this.getProvider();
-    var address = await this.getUserAddress(provider);
+    let provider = await this.getProvider();
+    let address = await this.getUserAddress(provider);
     const newState: WalletState = {
       provider: provider,
       address: address,
@@ -62,7 +62,6 @@ class WalletStateManager {
   }
 
   private async getProvider(): Promise<Web3Provider> {
-    // return new ethers.providers.Web3Provider((window as any).ethereum);
     let config = {
       paymasterAddress: ContractAddressManager.getInstance().getContractPaymaster().address,
       verbose: true,
@@ -77,7 +76,7 @@ class WalletStateManager {
 
   private async getUserAddress(provider: Web3Provider) {
     const signer = provider.getSigner();
-    var address = await signer.getAddress();
+    let address = await signer.getAddress();
     return address;
   }
 }
