@@ -1,10 +1,10 @@
-import { ethers, Signer } from "ethers";
-import { Provider } from "@ethersproject/providers";
-import WalletStateManager from "../utils/WalletStateManager";
-import PermitSigner from "../utils/PermitSigner";
-import { contractRelayRecipient, contractToken } from "./ContractAddresses";
+import { ethers, Signer } from 'ethers';
+import { Provider } from '@ethersproject/providers';
+import WalletStateManager from '../utils/WalletStateManager';
+import PermitSigner from '../utils/PermitSigner';
+import { contractRelayRecipient, contractToken } from './ContractAddresses';
 
-const gsn = require("@opengsn/provider");
+const gsn = require('@opengsn/provider');
 
 class ContractInteractor {
   private static instance: ContractInteractor;
@@ -19,38 +19,25 @@ class ContractInteractor {
   }
 
   async mintToken(amount: number) {
-    if (typeof (window as any).ethereum !== "undefined") {
-      let { provider } =
-        await WalletStateManager.getInstance().getWalletState();
+    if (typeof (window as any).ethereum !== 'undefined') {
+      let { provider } = await WalletStateManager.getInstance().getWalletState();
       if (!provider) {
         return;
       }
-      let contract = new ethers.Contract(
-        contractRelayRecipient.address,
-        contractRelayRecipient.abi,
-        provider.getSigner() as Signer
-      );
-      let transaction = await contract.mintToken(
-        contractToken.address,
-        ethers.utils.parseEther(`${amount}`).toBigInt()
-      );
+      let contract = new ethers.Contract(contractRelayRecipient.address, contractRelayRecipient.abi, provider.getSigner() as Signer);
+      let transaction = await contract.mintToken(contractToken.address, ethers.utils.parseEther(`${amount}`).toBigInt());
       await transaction.wait();
     }
   }
 
   async getTokenBalance(): Promise<number | null> {
-    if (typeof (window as any).ethereum !== "undefined") {
-      let { provider, address } =
-        await WalletStateManager.getInstance().getWalletState();
+    if (typeof (window as any).ethereum !== 'undefined') {
+      let { provider, address } = await WalletStateManager.getInstance().getWalletState();
       if (!provider) {
         return null;
       }
       let signer = provider.getSigner();
-      let contract = new ethers.Contract(
-        contractToken.address,
-        contractToken.abi,
-        provider as Provider
-      );
+      let contract = new ethers.Contract(contractToken.address, contractToken.abi, provider as Provider);
       try {
         let data = await contract.balanceOf(address);
         return parseFloat(ethers.utils.formatEther(data));
@@ -62,32 +49,27 @@ class ContractInteractor {
   }
 
   async transferTokenWithPermit(destinationAddress: string, amount: number) {
-    if (typeof (window as any).ethereum !== "undefined") {
+    if (typeof (window as any).ethereum !== 'undefined') {
       let result = await PermitSigner.getInstance().signTransferPermit(
-        ethers.utils.parseEther(`${amount}`).toBigInt().toString(),
-        contractRelayRecipient.address
+          ethers.utils.parseEther(`${amount}`).toBigInt().toString(),
+          contractRelayRecipient.address
       );
-      let { provider, address } =
-        await WalletStateManager.getInstance().getWalletState();
+      let { provider, address } = await WalletStateManager.getInstance().getWalletState();
       if (!provider) {
         return;
       }
-      let contract = new ethers.Contract(
-        contractRelayRecipient.address,
-        contractRelayRecipient.abi,
-        provider.getSigner() as Signer
-      );
+      let contract = new ethers.Contract(contractRelayRecipient.address, contractRelayRecipient.abi, provider.getSigner() as Signer);
 
       let permitTransaction = await contract.permitAndTransfer(
-        contractToken.address,
-        ethers.utils.parseEther(`${amount}`).toBigInt(),
-        destinationAddress,
-        address,
-        contractRelayRecipient.address,
-        (result as any).deadline,
-        result.v,
-        result.r,
-        result.s
+          contractToken.address,
+          ethers.utils.parseEther(`${amount}`).toBigInt(),
+          destinationAddress,
+          address,
+          contractRelayRecipient.address,
+          (result as any).deadline,
+          result.v,
+          result.r,
+          result.s
       );
       await permitTransaction.wait();
     }
