@@ -101,7 +101,7 @@ abstract contract ERC20Permit is ERC20, IERC2612Permit {
     require(signer == owner, 'ERC20Permit: invalid signature');
 
     _nonces[owner].increment();
-    _approve(owner, spender, amount * 10**18);
+    _approve(owner, spender, amount);
   }
 
   /**
