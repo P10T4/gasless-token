@@ -127,7 +127,7 @@ With the use of the permit function, our frontend users will just produce a sign
 ```solidity
 function permitAndTransfer(
     address tokenAddress,
-    uint256 amount
+    uint256 amount,
     address destinationAddress,
     address owner,
     address spender,
