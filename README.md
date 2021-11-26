@@ -127,8 +127,7 @@ With the use of the permit function, our frontend users will just produce a sign
 ```solidity
 function permitAndTransfer(
     address tokenAddress,
-    uint256 permitAmount,
-    uint256 transferAmount,
+    uint256 amount
     address destinationAddress,
     address owner,
     address spender,
@@ -138,8 +137,8 @@ function permitAndTransfer(
     bytes32 s
 ) public {
     ERC20Permit token = ERC20Permit(tokenAddress);
-    token.permit(owner, spender, permitAmount, deadline, v, r, s);
-    require(token.transferFrom(_msgSender(), destinationAddress, transferAmount), 'Transfer failed');
+    token.permit(owner, spender, amount, deadline, v, r, s);
+    require(token.transferFrom(_msgSender(), destinationAddress, amount), 'Transfer failed');
 }
 ```
 
