@@ -4,6 +4,13 @@
 
 ## Setup Guide
 
+Env requirements: 
+
+- yarn installed
+- Use node with v16 and below (due to a known issue with opengsn lib described [here](https://dev.to/earnestgdata/comment/1jc7m)
+
+<br />
+
 First, run the following to install all the required dependencies of this project:
 
 ```
