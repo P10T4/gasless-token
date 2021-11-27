@@ -7,7 +7,7 @@
 Env requirements: 
 
 - yarn installed
-- Use node with v16 and below (due to a known issue with opengsn lib described [here](https://dev.to/earnestgdata/comment/1jc7m)
+- tested with node v14 and below (higher versions such as v17 might have issue runninng due to a known issue with opengsn lib described [here](https://dev.to/earnestgdata/comment/1jc7m)
 
 <br />
 
